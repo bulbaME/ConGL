@@ -3,10 +3,10 @@
 ### Screen 
 
 - [ ] Support UNIX
-- [ ] Support Windows
+- [x] Support Windows
 
 - [ ] Screen auto size
-- [ ] Drawing pixels
+- [x] Drawing pixels
 - [ ] Drawing colored pixels
 
 
