@@ -9,23 +9,15 @@ using ID = unsigned int;
 
 class Layout {
     public:
-        Layout(Screen _screen) {
+        Layout(Screen* _screen) {
             screen = _screen;
-            size = screen.getSize();
-            construct();
-        }
-
-        Layout(Screen _screen, COORD _size) { 
-            screen = _screen;
-            size = _size;
-            construct();
         }
 
         // camera interface
         void setCameraPos(COORD position);
 
         // adds figure to layout ; returns figure's ID
-        ID addFigure(figures::Figure figure);
+        ID addFigure(figures::Figure* figure);
         // removes figure from layout
         void remFigure(ID id);
 
@@ -33,26 +25,18 @@ class Layout {
         void draw();
 
     private: 
-        Screen screen;
-        COORD size = {0, 0};
+        Screen* screen;
         COORD cameraPOS = {0, 0};
 
-        std::vector<figures::Figure> figures;
-
-        // class contructor
-        void construct();
+        std::vector<figures::Figure*> figures;
 };
-
-void Layout::construct() {
-    
-}
 
 void Layout::setCameraPos(COORD position) {
     cameraPOS = position;
 }
 
 // figures
-ID Layout::addFigure(figures::Figure figure) {
+ID Layout::addFigure(figures::Figure* figure) {
     figures.push_back(figure);
     return figures.size() - 1;
 }
@@ -62,10 +46,9 @@ void Layout::remFigure(ID id) {
 }
 
 void Layout::draw() {
-    for (figures::Figure& f : figures) 
-        f.draw(screen);
-    
-    screen.draw();
+    for (auto f : figures)
+        f->draw(screen, cameraPOS);
+    screen->draw();
 }
 
 #endif

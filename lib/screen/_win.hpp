@@ -51,12 +51,12 @@ class WinScreen {
         // clear screen
         void clear();
         // return screen buffer
-        const wchar_t * getScreen();
+        const wchar_t* getScreen();
 
         // set proper colors in terminal
         void initConsoleColors();
 
-        // get terminal handler
+        // get output handler
         const HANDLE getHandler() { return sHandler; }
 
     private:
@@ -65,7 +65,7 @@ class WinScreen {
         COORD scrSize;
         size_t pixelC;
 
-        wchar_t * screen;
+        wchar_t* screen;
         DWORD dWritten;
 
         void setupFont();

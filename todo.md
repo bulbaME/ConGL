@@ -13,7 +13,7 @@
 
 Rendering simple geometry
 
-- [ ] Rectangles
+- [x] Rectangles
 - [ ] Textures
 
 3D
