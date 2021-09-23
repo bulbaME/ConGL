@@ -21,7 +21,6 @@ class WinScreen {
 
             GetConsoleScreenBufferInfo(sHandler, &screenInfo);
             scrSize = screenInfo.dwSize;
-            scrSize.Y = 20;
             pixelC = scrSize.X * scrSize.Y;
 
             setupScreen();
@@ -79,7 +78,7 @@ void WinScreen::setPX(COORD coord, wchar_t c) {
 void WinScreen::setPX_s(COORD coord, wchar_t c) {
     if (coord.X >= 0 && coord.X < scrSize.X && coord.Y >= 0 && coord.Y < scrSize.Y) {
         screen[coord.Y * scrSize.X + coord.X] = c;
-    } else throw "Screen buffer index error";
+    };
 }
 
 void WinScreen::draw(bool autoClear = true) {

@@ -45,6 +45,7 @@ void Layout::remFigure(ID id) {
     figures.erase(figures.begin() + id);
 }
 
+
 void Layout::draw() {
     for (auto f : figures)
         f->draw(screen, cameraPOS);

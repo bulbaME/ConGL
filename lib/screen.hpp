@@ -11,10 +11,4 @@
     using Screen = UnixScreen;
     #endif
 
-    Screen Screen::operator=(const Screen other) {
-        Screen(other.sHandler);
-
-        return this;
-    }
-
 #endif
