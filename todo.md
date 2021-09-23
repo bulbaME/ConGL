@@ -14,7 +14,8 @@
 Rendering simple geometry
 
 - [x] Rectangles
-- [ ] Textures
+- [x] Textures
+- [x] Ellipses
 
 3D
 
