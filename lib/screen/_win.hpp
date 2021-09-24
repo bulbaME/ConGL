@@ -26,9 +26,9 @@ class WinScreen {
             setupScreen();
         }
 
-        WinScreen(bool newHandler) : WinScreen(newHandler ? 
+        WinScreen(bool newHandler, bool setCurrent = true) : WinScreen(newHandler ? 
             CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL) : GetStdHandle(STD_OUTPUT_HANDLE)
-        ) {};
+        ) { if (setCurrent) SetConsoleActiveScreenBuffer(sHandler); }
 
         ~WinScreen() {
             delete [] screen;

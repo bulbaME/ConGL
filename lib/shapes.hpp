@@ -39,7 +39,7 @@ namespace txr {
         return texture;
     }
 
-    Texture::Texture(const char* path) { 
+    Texture::Texture(const char* path) {
         Texture texture = loadTexture(path);
         data = texture.data;
         size = texture.size;
@@ -153,7 +153,7 @@ namespace shapes {
                     tY = 0;
                     tX += tstepX;
                 }
-            };
+            }
 
             void setSize(COORD _size) { size = _size; }
             COORD getSize() { return size; }
