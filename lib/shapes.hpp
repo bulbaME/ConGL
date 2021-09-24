@@ -12,7 +12,7 @@ namespace txr {
         Texture(const char* path);
 
         ~Texture() {
-            delete [] data;
+            //delete [] data;
         }
 
         wchar_t** data;
@@ -22,6 +22,8 @@ namespace txr {
     Texture loadTexture(const char* path) {
         std::ifstream file(path);
         Texture texture;
+        if (!file.is_open()) return texture;
+
         COORD size;
         file >> size.X >> size.Y;
         file.get();
