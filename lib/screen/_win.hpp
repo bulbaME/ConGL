@@ -34,8 +34,6 @@ class WinScreen {
             delete [] screen;
         }
 
-        WinScreen operator=(WinScreen other);
-
         // unsafe setPX ; better use setPX_s
         inline void setPX(COORD coord, wchar_t c);
         // safe setPX
@@ -60,7 +58,7 @@ class WinScreen {
 
     private:
         HANDLE sHandler;
-        CONSOLE_SCREEN_BUFFER_INFO screenInfo, oldScreenInfo;
+        CONSOLE_SCREEN_BUFFER_INFO screenInfo;
         COORD scrSize;
         size_t pixelC;
 
@@ -90,7 +88,7 @@ void WinScreen::clear() {
     std::fill_n(screen, pixelC, L' ');
 }
 
-const wchar_t * WinScreen::getScreen() {
+const wchar_t* WinScreen::getScreen() {
     return screen;
 }
 
