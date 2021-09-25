@@ -58,6 +58,7 @@ namespace shapes {
             // realiztion of rendering on to the screen
             virtual void draw(Screen*, COORD) = 0;
 
+            // positioning in the Space
             void setPos(COORD _position) { position = _position; }
             COORD getPos() { return position; }
 

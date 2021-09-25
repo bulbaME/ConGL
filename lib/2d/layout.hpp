@@ -9,6 +9,7 @@ using ID = unsigned int;
 
 class Layout {
     public:
+        Layout() = default;
         Layout(Screen* _screen) {
             screen = _screen;
         }
