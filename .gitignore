@@ -1,2 +1,6 @@
+# test files
+test*
+
+# programs folders
 .obsidian
 .vscode
