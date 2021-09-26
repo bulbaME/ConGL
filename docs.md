@@ -24,9 +24,11 @@ setCurrent: if `true`, switches to new handler (only for windows)
 | getSize | returns terminal size | `none` | `COORD` size |
 | setPx* | sets pixel on the screen | `COORD` coord, `wchar_t` character |
 | setPx_s | same as setPx, but safe |
+| setFont* | sets font size | `COORD` size | `void` | 
 
 `getHandler` (only for windows)
 `setPx()` is unsafe. Could cause errors.
+`setFont` (only for windows)
 
 
 ## setCurrentHandler(`HANDLE`  handler)
