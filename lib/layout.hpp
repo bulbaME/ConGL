@@ -47,7 +47,7 @@ class Layout {
 
         shapes::Figure* figures[10000];
         std::set<int> validFigures;
-        int figureC;
+        int figureC = 0;
 };
 
 bool Layout::collides(int id1, int id2) {
