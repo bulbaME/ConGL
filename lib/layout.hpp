@@ -12,7 +12,8 @@ class Layout {
         }
 
         // camera interface
-        void setCameraPos(COORD position);
+        void setCamera(COORD position) { cameraPOS = position; }
+        COORD getCamera() { return cameraPos; }
 
         // adds figure to the layout ; returns figure's ID
         int addFigure(shapes::Figure* figure) {
@@ -58,10 +59,6 @@ bool Layout::collides(shapes::Figure* f1, shapes::Figure* f2) {
     COORD p1 = f1->getPos(), p2 = f2->getPos();
     COORD mp1 = { short (s1.X + p1.X), short (s1.Y + p1.Y) }, mp2 = { short (s2.X + p2.X), short (s2.Y + p2.Y) };
     return ( mp1.X < p2.X || p1.X > mp2.X || mp1.Y < p2.Y || p1.Y > mp2.Y ) ? false : true;
-}
-
-void Layout::setCameraPos(COORD position) {
-    cameraPOS = position;
 }
 
 void Layout::draw() {
