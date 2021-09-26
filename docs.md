@@ -1,5 +1,4 @@
 # ConGL 
----
 
 ## Textures
 texture [formatter](textures/formatter.exe) that creates `.txr` files that can be used later
@@ -7,7 +6,6 @@ Usage - `formatter <filename> <output>`
 
 texture [example](textures/example) 
 
----
 ## ::Screen (`bool` newHandler\*, `bool` setCurrent\*)
 
 newHandler: if `true`, creates new Handler (only for windows)
@@ -34,7 +32,6 @@ setCurrent: if `true`, switches to new handler (only for windows)
 ## setCurrentHandler(`HANDLE`  handler)
 
 sets console current console handler (only for windows)
---- 
 
 ## ::\_2D
 ###  ::Layout (`Screen` screen)
@@ -51,8 +48,6 @@ sets console current console handler (only for windows)
 | collides | checks collision between two figures on the layout | `int` id1, `int` id2 | `bool` collides |
 | `static` collides | checks collision between two figures | `Figure*` f1, `Figure*` f2 | `bool` collides |
 | draw | draws frame on to the screen | `none` | `void` |
-
----
 
 ### ::shapes 
 
@@ -87,14 +82,12 @@ sets console current console handler (only for windows)
 
 ### ::Sprite : Figure (`COORD` size, `Texture` texture)
 
----
 
 ### ::txr 
 
 ### Texture (`const char*` path) 
 path -> path to .txr file
 
----
 
 # Examples
 ### rendering simple sprite 
