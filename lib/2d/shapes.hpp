@@ -58,12 +58,16 @@ namespace shapes {
             // realiztion of rendering on to the screen
             virtual void draw(Screen*, COORD) = 0;
 
-            // positioning in the Space
+            // positioning on the Layout
             void setPos(COORD _position) { position = _position; }
             COORD getPos() { return position; }
 
+            void setSize(COORD _size) { size = _size; }
+            COORD getSize() { return size; }
+
         protected:
             COORD position = {0, 0};
+            COORD size = {0, 0};
     };
 
     class Rectangle : public Figure {
@@ -79,15 +83,15 @@ namespace shapes {
                 short startY = position.Y - cameraPOS.Y, y;
                 for (short x = position.X - cameraPOS.X; x < toX; ++x) {
                     for (y = startY; y < toY; ++y) 
-                        screen->setPX_s({x, y}, L'X');
+                        screen->setPX_s({x, y}, fill);
                 }
             }
 
-            void setSize(COORD _size) { size = _size; }
-            COORD getSize() { return size; }
-        
+            // filling of the rectangle
+            void setFilling(wchar_t _fill) { fill = _fill; }
+
         private:
-            COORD size = {0, 0};
+            wchar_t fill = L'X';
     };
 
     class Ellipse : public Figure {
@@ -114,19 +118,19 @@ namespace shapes {
 
                     y = centerY - toY;
                     for (x = centerX - toX; x < centerX + toX; ++x)         // top half of the ellipse
-                        screen->setPX_s({x, y}, L'X');
+                        screen->setPX_s({x, y}, fill);
                     
                     y = centerY + toY - 1;
                     for (x = centerX - toX; x < centerX + toX; ++x)         // bottom half of the ellipse
-                        screen->setPX_s({x, y}, L'X');
+                        screen->setPX_s({x, y}, fill);
                 }
             }
 
-            void setSize(COORD _size) { size = _size; }
-            COORD getSize() { return size; }
-        
+            // filling of the ellipse
+            void setFilling(wchar_t _fill) { fill = _fill; }
+
         private:
-            COORD size = {0, 0};
+            wchar_t fill = L'X';
     };
 
     class Sprite : public Figure {
@@ -158,11 +162,7 @@ namespace shapes {
                 }
             }
 
-            void setSize(COORD _size) { size = _size; }
-            COORD getSize() { return size; }
-
         private:
-            COORD size = {0, 0};
             txr::Texture texture;
     };
 }
