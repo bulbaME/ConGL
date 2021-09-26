@@ -1,11 +1,6 @@
 #ifndef _WIN_SCREEN_API
 #define _WIN_SCREEN_API
 
-#include <windows.h>
-#include <algorithm>
-#include <stdio.h>
-#include <iostream>
-
 // sets current output handler
 void setCurrentHandler(HANDLE handler) {
     SetConsoleActiveScreenBuffer(handler);

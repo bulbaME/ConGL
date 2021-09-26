@@ -1,12 +1,6 @@
 #ifndef _UNIX_SCREEN_API
 #define _UNIX_SCREEN_API
 
-#include <sys/ioctl.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <wchar.h>
-#include <algorithm>
-
 struct COORD {
     short X, Y;
 };

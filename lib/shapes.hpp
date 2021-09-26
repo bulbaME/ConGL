@@ -1,8 +1,6 @@
 #ifndef _SHAPE_LIB
 #define _SHAPE_LIB
 
-#include <math.h>
-#include <fstream>
 #include "screen.hpp"
 #define PI 3.14159
 
