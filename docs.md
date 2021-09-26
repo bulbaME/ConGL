@@ -25,7 +25,7 @@ setCurrent: if `true`, switches to new handler (only for windows)
 | setFont* | sets font size | `COORD` size | `void` | 
 
 `getHandler` (only for windows)
-`setPx()` is unsafe. Could cause errors.
+`setPx` is unsafe. Could cause errors.
 `setFont` (only for windows)
 
 
