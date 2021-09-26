@@ -13,7 +13,7 @@ class Layout {
 
         // camera interface
         void setCamera(COORD position) { cameraPOS = position; }
-        COORD getCamera() { return cameraPos; }
+        COORD getCamera() { return cameraPOS; }
 
         // adds figure to the layout ; returns figure's ID
         int addFigure(shapes::Figure* figure) {

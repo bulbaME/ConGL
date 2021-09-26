@@ -12,7 +12,6 @@ class WinScreen {
 
         WinScreen(HANDLE handler) {
             sHandler = handler;
-            setupFont();
 
             GetConsoleScreenBufferInfo(sHandler, &screenInfo);
             scrSize = screenInfo.dwSize;
@@ -51,6 +50,9 @@ class WinScreen {
         // get output handler
         const HANDLE getHandler() { return sHandler; }
 
+        // sets font
+        void setFont(COORD size);
+
     private:
         HANDLE sHandler;
         CONSOLE_SCREEN_BUFFER_INFO screenInfo;
@@ -60,7 +62,6 @@ class WinScreen {
         wchar_t* screen;
         DWORD dWritten;
 
-        void setupFont();
         void setupScreen();
 };
 
@@ -88,9 +89,9 @@ const wchar_t* WinScreen::getScreen() {
 }
 
 // set screen font
-void WinScreen::setupFont() {
+void WinScreen::setFont(COORD size) {
     CONSOLE_FONT_INFOEX info{sizeof(CONSOLE_FONT_INFOEX)};
-    info.dwFontSize = {10, 10};
+    info.dwFontSize = size;
     info.FontWeight = FW_DEMIBOLD;
     info.FontFamily = FF_DECORATIVE;
 
