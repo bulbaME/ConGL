@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <stdio.h>
 #include <iostream>
+#include <unistd.h>
 
 #ifdef _WIN32 
 #include <windows.h>
@@ -14,7 +15,6 @@
 
 #ifdef linux
 #include <sys/ioctl.h>
-#include <unistd.h>
 #include <wchar.h>
 #endif
 

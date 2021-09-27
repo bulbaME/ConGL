@@ -10,7 +10,7 @@ namespace txr {
         Texture(const char* path);
 
         ~Texture() {
-            //delete [] data;
+            delete [] data;
         }
 
         wchar_t** data;
@@ -159,6 +159,9 @@ namespace shapes {
                     tX += tstepX;
                 }
             }
+
+            // set texture
+            void setTexture(txr::Texture _texture) { texture = _texture; }
 
         private:
             txr::Texture texture;
