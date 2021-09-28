@@ -4,21 +4,21 @@
 
 - [x] Support UNIX
 - [x] Support Windows
-- [ ] Screen auto size
+- [x] Screen auto size
 - [x] Drawing pixels
-- [ ] ~~Drawing colored pixels~~
 
 
 ### Rendering
 
-Rendering simple geometry
+2D
 
 - [x] Rectangles
-- [x] Textures
+- [x] Sprites
 - [x] Ellipses
+- [x] Collision detection
 
 3D
 
 - [ ] Polygons
 - [ ] Shading
-- [ ] ~~Colors~~
+- [ ] Textures
