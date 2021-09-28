@@ -6,21 +6,33 @@
 
 namespace txr {
     struct Texture {
-        Texture() = default;
-        Texture(const char* path);
+        Texture() {
+            data = new wchar_t*[1];
+            data[0] = new wchar_t[3]{L'E', L'R', L'R'};
+            size = {3, 1};
+        };
+
+        Texture(std::string path);
 
         ~Texture() {
             delete [] data;
         }
 
         wchar_t** data;
-        COORD size;
+        COORD size = {0, 0};
     };
 
-    Texture loadTexture(const char* path) {
-        std::ifstream file(path);
+    Texture loadTexture(std::string filename) {
+        std::string path = std::filesystem::current_path().string() + '\\' + filename;
+        std::ifstream file;
         Texture texture;
-        if (!file.is_open()) return texture;
+
+        file.open(path);
+        printf("opened\n");
+        if (!file || file.fail() || !file.is_open())  {
+            std::cout << "Unnable to load " << filename << std::endl;
+            return texture;
+        }
 
         COORD size;
         file >> size.X >> size.Y;
@@ -29,7 +41,7 @@ namespace txr {
 
         for (short y = 0; y < size.Y; ++y) {
             data[y] = new wchar_t[size.X];
-            
+            printf("");  
             for (short x = 0; x < size.X; ++x) 
                 data[y][x] = (wchar_t) file.get();
         }
@@ -39,7 +51,7 @@ namespace txr {
         return texture;
     }
 
-    Texture::Texture(const char* path) {
+    Texture::Texture(std::string path) {
         Texture texture = loadTexture(path);
         data = texture.data;
         size = texture.size;
@@ -136,9 +148,9 @@ namespace shapes {
             Sprite() = default;
             Sprite(COORD _size) { size = _size; }
             Sprite(txr::Texture _texture) : Sprite(_texture.size) { texture = _texture; }
-            Sprite(const char* texturePath) : Sprite(txr::Texture(texturePath)) {}
+            Sprite(std::string texturePath) : Sprite(txr::Texture(texturePath)) {}
             Sprite(COORD _size, txr::Texture _texture) : Sprite(_size) { texture = _texture; }
-            Sprite(COORD _size, const char* texturePath) : Sprite( _size, txr::Texture(texturePath)) {}
+            Sprite(COORD _size, std::string texturePath) : Sprite( _size, txr::Texture(texturePath)) {}
 
             void draw(Screen* screen, COORD cameraPOS) {
                 short toX = position.X + size.X - cameraPOS.X;
