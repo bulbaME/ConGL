@@ -2,8 +2,8 @@
 
 ### Screen 
 
-- [x] Support UNIX
-- [x] Support Windows
+- [x] Fully support Windows
+- [ ] Fully support UNIX
 - [x] Screen auto size
 - [x] Drawing pixels
 
