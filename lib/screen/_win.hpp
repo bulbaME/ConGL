@@ -12,11 +12,7 @@ class WinScreen {
 
         WinScreen(HANDLE handler) {
             sHandler = handler;
-
-            GetConsoleScreenBufferInfo(sHandler, &screenInfo);
-            scrSize = screenInfo.dwSize;
-            pixelC = scrSize.X * scrSize.Y;
-
+            resizeScreen();
             setupScreen();
         }
 
@@ -27,6 +23,9 @@ class WinScreen {
         ~WinScreen() {
             delete [] screen;
         }
+
+        // resizing automaticly screen if needed
+        bool autoSize = false;
 
         // unsafe setPX ; better use setPX_s
         inline void setPX(COORD coord, wchar_t c);
@@ -63,6 +62,7 @@ class WinScreen {
         DWORD dWritten;
 
         void setupScreen();
+        void resizeScreen();
 };
 
 void WinScreen::setPX(COORD coord, wchar_t c) {
@@ -76,8 +76,16 @@ void WinScreen::setPX_s(COORD coord, wchar_t c) {
 }
 
 void WinScreen::draw(bool autoClear = true) {
+    if (autoSize) resizeScreen();
     WriteConsoleOutputCharacterW(sHandler, screen, pixelC, {0, 0}, &dWritten);
     if (autoClear) clear();
+}
+
+void WinScreen::resizeScreen() {
+    GetConsoleScreenBufferInfo(sHandler, &screenInfo);
+    if (screenInfo.dwSize.X == scrSize.X && screenInfo.dwSize.Y == scrSize.Y) return;
+    scrSize = screenInfo.dwSize;
+    pixelC = scrSize.X * scrSize.Y;
 }
 
 void WinScreen::clear() {
