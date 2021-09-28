@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <iostream>
 #include <unistd.h>
+#include <filesystem>
+#include <string>
 
 #ifdef _WIN32 
 #include <windows.h>
