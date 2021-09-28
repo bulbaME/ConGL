@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: Suggest an idea for ConGl
-title: "[IDEA]"
+title: "Genius Idea"
 labels: enhancement
 assignees: ''
 
