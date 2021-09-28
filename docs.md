@@ -47,6 +47,8 @@ sets console current console handler (only for windows)
 | enableFigure | enables figure on the layout | `int` id | `void` |
 | collides | checks collision between two figures on the layout | `int` id1, `int` id2 | `bool` collides |
 | `static` collides | checks collision between two figures | `Figure*` f1, `Figure*` f2 | `bool` collides |
+| onCollision | checks if two figures on the layout are touching each other | `int` id1, `int` id2 | `bool` collides |
+| `static` onCollision | checks if two figures are touching each other | `Figure*` f1, `Figure*` f2 | `bool` collides |
 | draw | draws frame on to the screen | `none` | `void` |
 
 ### ::shapes 
@@ -82,10 +84,13 @@ sets console current console handler (only for windows)
 
 ### ::Sprite : Figure (`COORD` size, `Texture` texture)
 
+| Name | Description | Parameters | Return |
+| ---- | ----------- | ---------- | ------ |
+| setTexture | sets texture | `Texture*` fill | `void` |
 
 ### ::txr 
 
-### Texture (`const char*` path) 
+### Texture (`string` path) 
 path -> path to .txr file
 
 
