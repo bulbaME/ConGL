@@ -20,17 +20,19 @@
 #include <algorithm>
 #include <stdio.h>
 #include <iostream>
-#include <unistd.h>
 #include <filesystem>
 #include <string>
+#include <chrono>
+#include <thread>
+#include <vector>
+#include <map>
 
 #ifdef _WIN32 
 #include <windows.h>
-#endif
-
-#ifdef linux
+#else
 #include <sys/ioctl.h>
 #include <wchar.h>
+#include <unistd.h>
 #endif
 
 namespace ConGL {
@@ -40,6 +42,7 @@ namespace ConGL {
 namespace ConGL::_2D {
     #include "lib/layout.hpp"
     #include "lib/shapes.hpp"
+    #include "lib/fonts.hpp"
 }
 
 #endif
