@@ -1,10 +1,10 @@
 # ConGL 
 
 ## Textures
-texture [formatter](textures/formatter.exe) that creates `.txr` files that can be used later
+texture [formatter](../textures/formatter.exe) that creates `.txr` files that can be used later
 Usage - `formatter <filename> <output>`
 
-texture [example](textures/example) 
+texture [example](../textures/example) 
 
 ## ::Screen (`bool` newHandler\*, `bool` setCurrent\*)
 
@@ -23,6 +23,9 @@ setCurrent: if `true`, switches to new handler (only for windows)
 | setPx* | sets pixel on the screen | `COORD` coord, `wchar_t` character |
 | setPx_s | same as setPx, but safe |
 | setFont* | sets font size | `COORD` size | `void` | 
+| autosizeToggle | screen will resize automaticly when nedeed | `bool` state | `void` |
+| metaToggle | meta data will be shown on the top of screen  | `bool` state | `void` |
+| setFpsLimit | sets fps limit | `int` fps | `void` |
 
 `getHandler` (only for windows)
 `setPx` is unsafe. Could cause errors.
@@ -86,13 +89,16 @@ sets console current console handler (only for windows)
 
 | Name | Description | Parameters | Return |
 | ---- | ----------- | ---------- | ------ |
-| setTexture | sets texture | `Texture*` fill | `void` |
+| setTexture | sets texture | `Texture*` texture | `void` |
 
 ### ::txr 
 
 ### Texture (`string` path) 
 path -> path to .txr file
 
+| Name | Description | Parameters | Return |
+| ---- | ----------- | ---------- | ------ |
+| `<short X, short Y>` setProper | loads texture from 2d array | `wchar_t` data`[Y][X]` | `void` |
 
 # Examples
 ### rendering simple sprite 
