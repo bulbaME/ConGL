@@ -18,6 +18,20 @@ namespace txr {
             delete [] data;
         }
 
+        // set your texture through arrays
+        template <short X, short Y> 
+        void setProper(wchar_t (&_data)[Y][X]) {
+            size = {X, Y};
+            delete [] data;
+            data = new wchar_t*[size.Y];
+
+            for (short y = 0; y < size.Y; ++y) {
+                data[y] = new wchar_t[size.X];
+                for (short x = 0; x < size.X; ++x) 
+                    data[y][x] =  _data[y][x];
+            }
+        }
+
         wchar_t** data;
         COORD size = {0, 0};
     };
@@ -28,7 +42,6 @@ namespace txr {
         Texture texture;
 
         file.open(path);
-        printf("opened\n");
         if (!file || file.fail() || !file.is_open())  {
             std::cout << "Unnable to load " << filename << std::endl;
             return texture;
@@ -41,7 +54,6 @@ namespace txr {
 
         for (short y = 0; y < size.Y; ++y) {
             data[y] = new wchar_t[size.X];
-            printf("");  
             for (short x = 0; x < size.X; ++x) 
                 data[y][x] = (wchar_t) file.get();
         }
@@ -71,6 +83,11 @@ namespace shapes {
             // positioning on the Layout
             void setPos(COORD _position) { position = _position; }
             COORD getPos() { return position; }
+
+            void movePos(COORD _position) { 
+                position.X += _position.X;
+                position.Y += _position.Y;
+            }
 
             void setSize(COORD _size) { size = _size; }
             COORD getSize() { return size; }
@@ -146,24 +163,27 @@ namespace shapes {
     class Sprite : public Figure {
         public:
             Sprite() = default;
+            // define only size
             Sprite(COORD _size) { size = _size; }
-            Sprite(txr::Texture _texture) : Sprite(_texture.size) { texture = _texture; }
+            // define texture with object
+            Sprite(txr::Texture _texture) : Sprite(_texture.size) { storeTexture = _texture; ptexture = &storeTexture; }
+            // define texture with pointer
+            Sprite(txr::Texture* _ptexture) : Sprite(_ptexture->size) { ptexture = _ptexture; }
+            // define texture with path
             Sprite(std::string texturePath) : Sprite(txr::Texture(texturePath)) {}
-            Sprite(COORD _size, txr::Texture _texture) : Sprite(_size) { texture = _texture; }
-            Sprite(COORD _size, std::string texturePath) : Sprite( _size, txr::Texture(texturePath)) {}
 
             void draw(Screen* screen, COORD cameraPOS) {
                 short toX = position.X + size.X - cameraPOS.X;
                 short toY = position.Y + size.Y - cameraPOS.Y;
 
-                double tstepX = (double) texture.size.X / size.X, tstepY = (double) texture.size.Y / size.Y;    // stretching texture
-                double tX = 0, tY = 0;                                                                          // current x and y on texture
+                double tstepX = (double) ptexture->size.X / size.X, tstepY = (double) ptexture->size.Y / size.Y;    // stretching texture
+                double tX = 0, tY = 0;                                                                              // current x and y on texture
 
                 wchar_t curr;
                 short startY = position.Y - cameraPOS.Y, y;
                 for (short x = position.X - cameraPOS.X; x < toX; ++x) {
                     for (y = startY; y < toY; ++y) {
-                        curr = texture.data[(int) tY][(int) tX];
+                        curr = ptexture->data[(int) tY][(int) tX];
                         if (curr != L' ') screen->setPX_s({x, y}, curr);
                         tY += tstepY;
                     }
@@ -172,12 +192,25 @@ namespace shapes {
                 }
             }
 
-            // set texture
-            void setTexture(txr::Texture _texture) { texture = _texture; }
+            // set texture with pointer
+            void setTexture(txr::Texture* _ptexture) { ptexture = _ptexture; }
 
         private:
-            txr::Texture texture;
+            txr::Texture* ptexture;
+            txr::Texture storeTexture;
     };
+
+    // TODO: text using fonts
+    // class Text : public Figure {
+
+    //     public: 
+    //         Text() = default;
+    //         Text(char* _text) { text = _text; }
+    //         Text(COORD _size, char* _text) { text = _text; size = _size; }
+
+    //     private:
+    //         char* text;
+    // };
 }
 
 #endif
