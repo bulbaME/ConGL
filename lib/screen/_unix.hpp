@@ -7,8 +7,6 @@ struct COORD {
 
 class UnixScreen {
     public: 
-        UnixScreen() = default;
-
         UnixScreen() {
             ioctl(STDOUT_FILENO, TIOCGWINSZ, &screenInfo);
             scrSize = { (short) screenInfo.ws_col, (short) screenInfo.ws_row };
