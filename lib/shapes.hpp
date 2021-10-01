@@ -42,7 +42,7 @@ namespace txr {
         Texture texture;
 
         file.open(path);
-        if (!file || file.fail() || !file.is_open())  {
+        if (!file || file.fail() || !file.is_open()) {
             std::cout << "Unnable to load " << filename << std::endl;
             return texture;
         }
