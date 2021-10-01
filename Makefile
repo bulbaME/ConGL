@@ -13,3 +13,6 @@ win:
 
 rofl:
 	$(CC) $(FLAGS) $(CC_FLAGS) roflcopter/rofl.cpp -o roflcopter/rofl.exe
+
+test-unix: 
+	g++ $(FLAGS) $(CC_FLAGS) test.cpp -o test.o
