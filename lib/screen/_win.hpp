@@ -30,7 +30,11 @@ class WinScreen {
         void setPX_s(COORD coord, wchar_t c);
 
         // return console screen size
-        COORD getSize() { return scrSize; }
+        COORD getSize() { return sSize; }
+        // set size of the surface that is being drawn
+        void setSurfaceSize(COORD size) { dSize = size; autoCalcD = true; }
+
+        COORD getSurfaceSize() { return dSize; }
 
 
         // draw screen
@@ -63,16 +67,21 @@ class WinScreen {
     private:
         HANDLE sHandler;
         CONSOLE_SCREEN_BUFFER_INFO screenInfo;
-        COORD scrSize;
-        size_t pixelC;
+        COORD sSize;  // screen size 
+        size_t pixelC;  // count of all pixels on the screen
         bool showMeta = false;
         bool autoSize = false;
 
-        wchar_t* screen;
+        wchar_t* screen;  // screen buffer
         DWORD dWritten;
 
         void setupScreen();
         void resizeScreen();
+
+        COORD dOff = {0, 0};  // offset of surface size
+        COORD dSize;  // surface size
+        bool autoCalcD = false;
+        void calcdOffset();
 
         // time
         int frameTime = 0, avgWait = 0;  // in milliseconds
@@ -81,12 +90,14 @@ class WinScreen {
 };
 
 void WinScreen::setPX(COORD coord, wchar_t c) {
-    screen[coord.Y * scrSize.X + coord.X] = c;
+    short off = (coord.Y + dOff.Y) * sSize.X + (coord.X + dOff.X);
+    screen[off] = c;
 }
 
 void WinScreen::setPX_s(COORD coord, wchar_t c) {
-    if (coord.X >= 0 && coord.X < scrSize.X && coord.Y >= 0 && coord.Y < scrSize.Y) {
-        screen[coord.Y * scrSize.X + coord.X] = c;
+    if (coord.X >= 0 && coord.X < dSize.X && coord.Y >= 0 && coord.Y < dSize.Y) {
+        short off = (coord.Y + dOff.Y) * sSize.X + (coord.X + dOff.X);
+        screen[off] = c;
     };
 }
 
@@ -116,8 +127,8 @@ void WinScreen::draw(bool autoClear = true) {
         std::string metadata = std::string() + "[" + std::to_string(fps) + "]";
         const char* cmetadata = metadata.c_str(); 
 
-        short min = scrSize.X > metadata.size() ? metadata.size() : scrSize.X;
-        short shift = scrSize.X - min;
+        short min = sSize.X > metadata.size() ? metadata.size() : sSize.X;
+        short shift = sSize.X - min;
         for (short m = 0; m < min; ++m) {
             screen[m + shift] = (wchar_t) cmetadata[m];
         }
@@ -130,9 +141,11 @@ void WinScreen::draw(bool autoClear = true) {
 
 void WinScreen::resizeScreen() {
     GetConsoleScreenBufferInfo(sHandler, &screenInfo);
-    if (screenInfo.dwSize.X == scrSize.X && screenInfo.dwSize.Y == scrSize.Y) return;
-    scrSize = screenInfo.dwSize;
-    pixelC = scrSize.X * scrSize.Y;
+    if (screenInfo.dwSize.X == sSize.X && screenInfo.dwSize.Y == sSize.Y) return;
+    sSize = screenInfo.dwSize;
+    pixelC = sSize.X * sSize.Y;
+    if (autoCalcD) calcdOffset();
+    else dSize = sSize;
     setupScreen();
 }
 
@@ -157,6 +170,13 @@ void WinScreen::setFont(COORD size) {
 // create screen buffer
 void WinScreen::setupScreen() {
     screen = new wchar_t[pixelC]();
+}
+
+// calculating offset for surface
+void WinScreen::calcdOffset() {
+    short x = (sSize.X - dSize.X) / 2;
+    short y = (sSize.Y - dSize.Y) / 2;
+    dOff = { short (x > 0 ? x : 0), short (y > 0 ? y : 0) };
 }
 
 #endif
