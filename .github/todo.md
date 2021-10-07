@@ -8,9 +8,16 @@
 - [x] Drawing pixels
 - [x] FPS limit
 - [x] Keyboard input
+- [ ] Colored pixels 
 
 
 ### Rendering
+
+Pixels 
+
+- [ ] Colored sprites
+- [ ] Shaders 
+- [ ] Multi-threading 
 
 2D
 
