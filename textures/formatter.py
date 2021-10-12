@@ -1,18 +1,6 @@
-import sys
+import sys, PIL
 
-def main():
-    if (len(sys.argv) < 2):
-        print('File name was not specified')
-        return
-
-    file = 0
-    try:
-        file = open(sys.argv[1], 'r+')
-    except:
-        print(f"No such file named '{sys.argv[1]}'")
-        return
-    
-
+def readText(file):
     texture = []
     size = [0, 0]
 
@@ -26,18 +14,40 @@ def main():
             size[0] = len(chars)
         size[1] += 1
         texture.append(chars)
+        texture.append('00FF0000')
+    
+    return texture, size
+
+def readImage():
+    pass
+
+def main():
+    if (len(sys.argv) < 2):
+        print('File name was not specified')
+        return
+
+    file = 0
+    try:
+        file = open(sys.argv[1], 'r+')
+    except:
+        print(f"No such file named '{sys.argv[1]}'")
+        return
+    
+    texture, size = readText(file)
 
     texture = map(lambda t: t + ' ' * (size[0] - len(t)), texture)
     texture = ''.join(texture)
     code = f'{size[0]} {size[1]} {texture}'
 
+    filename = ''
     if (len(sys.argv) >= 3):
-        file = open(sys.argv[2] + '.txr', 'w')
-        file.seek(0)
-        file.write(code)
+        filename = sys.argv[2].split('.')[0] + '.txr'
     else:
-        file.seek(0)
-        file.write(code)
+        filename = sys.argv[1].split('.')[0] + '.txr'
+
+    file = open(filename, 'w')
+    file.seek(0)
+    file.write(code)
 
 if __name__ == '__main__':
     main()
