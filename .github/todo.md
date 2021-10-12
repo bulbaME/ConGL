@@ -32,3 +32,9 @@ Pixels
 - [ ] Polygons
 - [ ] Shading
 - [ ] Textures
+
+### Textures
+
+- [ ] Texture editor
+- [ ] Texture convertor (plain text)
+- [ ] Texture convertor (image)
