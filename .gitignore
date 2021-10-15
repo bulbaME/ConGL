@@ -1,9 +1,6 @@
 # test files
 test*
 
-# ???
-/roflcopter
-
 # programs folders
 .obsidian
 .vscode
