@@ -1,7 +1,7 @@
 # ConGL 
 
 ## Textures
-texture [formatter](../textures/formatter.exe) that creates `.txr` files that can be used later
+texture [formatter](../textures/bin/formatter.exe) that creates `.txr` files that can be used later
 Usage - `formatter <filename> <output>`
 
 texture [example](../textures/example) 

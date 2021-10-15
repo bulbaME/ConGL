@@ -3,14 +3,13 @@
 ### open-source rendering engine for console 🖥
 
 ## Philosophy
-You can use ConGL as game engine, as API for creating apps or even for outputing images!
-It allows you to create big porjects keeping code clean and nice.
+ConGL is created for developers that needed a simple API for rendering in console.
+This library can be used for any purposes (from game engine, to outputing images)
+The main goal of the project was to create a simple API that will keep your code
+clean even in big projects.
 
-Interface is simple enough, which means that even begginers won't struggle with it.
-
-ConGL uses multi-threading for rendering, so performance always will be on high level.
-
-Also you can extend some classes by yourself for achieving better performance.
+As said before, ConGL is very simple to use, so it will be also helpful for begginers
+to create simple projects.
 
 ## Documentation
 
@@ -73,7 +72,7 @@ main.draw();
 Now we can combine everything we learned so far 
 and write a small program which draws rectangle 
 ```cpp
-#include <congl.h>
+#include "congl.h"
 using namespace ConGL;
 using namespace eng2D;
 
@@ -97,9 +96,12 @@ int main() {
 ```
 
 
+If you compile with binary add `#define BIN_LINK` before including congl
+
+
 ## Reference
-#### ConGL latest release -> check out [full reference](.github/docs.md)
+#### ConGL latest release -> check out [full reference](docs.md)
 
-## Some ConGL [projects](.github/examples.md) 
+### Some ConGL [projects](examples.md) 
 
-## [Contributing](.github/contributing.md)
+### Check out [contributing](contributing.md)
