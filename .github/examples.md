@@ -10,4 +10,4 @@
 #### [Insanis Sphaera](https://github.com/bulbaME/insanis-sphaera)
 
 
-###### if you made something on ConGL and want to share it, feel free to make a pull request to [examples](examples) folder of your creation
+###### if you made something on ConGL and want to share it, feel free to make a pull request of your creation to [examples](examples) folder
