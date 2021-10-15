@@ -24,6 +24,19 @@ namespace ConGL::eng2D::txr {
         }
     }
 
+    template <short X, short Y> 
+    void Texture::setProper(wchar_t _data[Y][X], COLOR color) {
+        size = {X - 1, Y};
+        delete [] data;
+        data = new PIXEL*[size.Y];
+
+        for (short y = 0; y < size.Y; ++y) {
+            data[y] = new PIXEL[size.X];
+            for (short x = 0; x < size.X; ++x) 
+                data[y][x] = PIXEL(_data[y][x], color);
+        }
+    }
+
     Texture::Texture(std::string path) {
         Texture texture = loadTexture(path);
         data = texture.data;
