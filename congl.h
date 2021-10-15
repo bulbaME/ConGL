@@ -8,9 +8,9 @@
 //      | $$       /$$__  $$| $$__  $$| $$ /$$$$| $$            //
 //      | $$      | $$  \ $$| $$  \ $$| $$|_  $$| $$            //       
 //      | $$    $$| $$  | $$| $$  | $$| $$  \ $$| $$            //
-//      |  $$$$$$/|  $$$$$$/| $$  | $$|  $$$$$$/| $$$$$$$$      //   
-//       \______/  \______/ |__/  |__/ \______/ |________/      //      
-//                                                              //                                                          
+//      |  $$$$$$/|  $$$$$$/| $$  | $$|  $$$$$$/| $$$$$$$$      //
+//       \______/  \______/ |__/  |__/ \______/ |________/      //
+//                                                              //
 //--------------------------------------------------------------//
 
 #ifndef CONGL
@@ -93,24 +93,25 @@ namespace ConGL {
         PIXEL(COLOR);
         PIXEL(wchar_t, COLOR);
         PIXEL(COORD, wchar_t, COLOR);
+        PIXEL(COORD);
 
         COORD pos = {0, 0};
-        wchar_t ch = W_BLOCK;
+        wchar_t ch = L' ';
         COLOR col = colors::FG::WHITE;
     };
 }
 
 #ifdef _WIN32 
 namespace ConGL {
-    class WinScreen {
+    class WinCon {
     public:
-        WinScreen() = default;
+        WinCon() = default;
 
-        WinScreen(HANDLE);
+        WinCon(HANDLE);
 
-        WinScreen(bool, bool);
+        WinCon(bool, bool);
 
-        ~WinScreen();
+        ~WinCon();
 
         static void setCurrentHandler(HANDLE);
 
@@ -118,6 +119,7 @@ namespace ConGL {
         inline void setPX(PIXEL);
         // safe setPX
         void setPX_s(PIXEL);
+        PIXEL getPX(COORD);
 
         // return console screen size
         COORD getSize();
@@ -131,7 +133,7 @@ namespace ConGL {
         // clear screen
         void flushScreen();
         // return screen buffer
-        std::vector<PIXEL>::const_iterator getScreen();
+        PIXEL* getScreen();
 
         // set screen buffer size
         void forceScrSize(COORD);
@@ -148,7 +150,7 @@ namespace ConGL {
         // current fps
         int fps = 0;
 
-        // toggle resizing automaticly 
+        // toggle resizing automaticly
         void autosizeToggle(bool);
 
         // toggle metadata
@@ -157,22 +159,29 @@ namespace ConGL {
     private:
         HANDLE sHandler;
         CONSOLE_SCREEN_BUFFER_INFO screenInfo;
-        COORD sSize;  // screen size 
+        COORD sSize;  // screen size
         size_t pixelC;  // count of all pixels on the screen
         bool showMeta = false;
         bool autoSize = false;
 
-        std::vector<PIXEL> screenBuff; // screen buffer
-        std::vector<PIXEL> oldScreenBuff; // screen buffer
+        std::vector<PIXEL> frameBuff;  // current frame changed pixels
+        PIXEL* frameBuffP = nullptr;  // current frame changed pixels
+        PIXEL* screenBuffP = nullptr;  // screen buffer
+
+        std::vector<PIXEL> tempFrameBuff;
+        bool renderDone = true;
 
         void resizeScreen();
-        void _render(bool);
+        static void _render(WinCon*);
+        void renderThreadFunc(bool);
+        void initScr();
 
         COORD dOff = {0, 0};  // offset of surface size
         COORD dSize;  // surface size
         bool autoCalcD = false;
         void calcdOffset();
         DWORD written;
+        void* buff_res;
 
         // time
         int frameTime = 0, avgWait = 0;  // in milliseconds
@@ -180,11 +189,11 @@ namespace ConGL {
         std::chrono::duration<double> tdiff;
     };
 
-    using HScreen = WinScreen;
+    using HScreen = WinCon;
 }
 
 #ifndef BIN_LINK
-#include "lib/screen_win.cpp"
+#include "lib/win_console.cpp"
 #endif // BIN_LINK
 #else
 namespace ConGL {
@@ -206,6 +215,8 @@ namespace ConGL {
 
         // set pixel to a specific position
         void setPX(PIXEL);
+        // get pixel from a specific position
+        PIXEL getPX(COORD);
         // returns screen size
         COORD getScrSize();
         // set surface size
@@ -215,6 +226,8 @@ namespace ConGL {
 
         // render screen
         void render();
+        // clears screen
+        void flush();
         
         // toggle auto screen resizing
         void toggleAutosize(bool);
@@ -252,9 +265,13 @@ namespace ConGL::eng2D::txr {
         Texture(std::string path);
         ~Texture();
 
-        // set texture through arrays
+        // set texture through arrays of pixels
         template <short X, short Y> 
         void setProper(PIXEL _data[Y][X]);
+
+        // set texture through arrays of characters
+        template <short X, short Y> 
+        void setProper(wchar_t _data[Y][X], COLOR fill = colors::FG::WHITE);
 
         PIXEL** data;
         COORD size = {0, 0};
@@ -296,7 +313,7 @@ namespace ConGL::eng2D::shapes {
             void setFilling(PIXEL);
 
         private:
-            PIXEL fill;
+            PIXEL fill = colors::BG::WHITE;
     };
 
     class Ellipse : public Figure {
@@ -310,7 +327,7 @@ namespace ConGL::eng2D::shapes {
             void setFilling(PIXEL);
 
         private:
-            PIXEL fill;
+            PIXEL fill = colors::BG::WHITE;
     };
 
     class Sprite : public Figure {
