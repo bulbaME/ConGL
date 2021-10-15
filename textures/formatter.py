@@ -10,11 +10,15 @@ def readText(file):
             break
         if chars[-1] == '\n':
             chars = chars[:-1]
-        if (len(chars) >= size[0]):
+        if len(chars) >= size[0]:
             size[0] = len(chars)
+
+        newChars = ''
+        for x in range(len(chars)):
+            newChars += chars[x] + '0007'
+        
         size[1] += 1
-        texture.append(chars)
-        texture.append('00FF0000')
+        texture.append(newChars)
     
     return texture, size
 
