@@ -5,6 +5,7 @@ namespace ConGL {
     PIXEL::PIXEL(COLOR _col) { col = _col; }
     PIXEL::PIXEL(wchar_t _ch, COLOR _col) { ch = _ch, col = _col; }
     PIXEL::PIXEL(COORD _pos, wchar_t _ch, COLOR _col) : PIXEL(_ch, _col) { pos = _pos; }
+    PIXEL::PIXEL(COORD _pos) { pos = _pos; }
 }
 
 namespace ConGL::keys {
