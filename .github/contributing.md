@@ -1,7 +1,7 @@
 # Contributing to ConGL ✨
 
-If you are reading this, that means you are interested in contributing to ConGL 🖥! 
-I'm glad that you are reading this, because it would be nice to have one more developer involved into this project. 
+If you are reading this, that means you are thinking about contributing to ConGL! 
+I'm glad that you are reading this, because it would be really cool to have one more developer involved into this project 😉
 
 ## New Ideas 💡
 If you have a great idea about new feature, implementation, etc. feel free to feature it in **Issues**
