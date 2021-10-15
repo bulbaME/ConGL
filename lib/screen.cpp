@@ -15,6 +15,10 @@ void Screen::setPX(PIXEL px) {
     hs->setPX_s(px);
 }
 
+PIXEL Screen::getPX(COORD pos) {
+    return hs->getPX(pos);
+}
+
 COORD Screen::getScrSize() {
     return hs->getSize();
 }
@@ -29,6 +33,10 @@ COORD Screen::getSurfaceSize() {
 
 void Screen::render() {
     hs->draw();
+}
+
+void Screen::flush() {
+    hs->flushScreen();
 }
 
 void Screen::toggleAutosize(bool toggle) {
