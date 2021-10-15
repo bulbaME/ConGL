@@ -1,4 +1,5 @@
 CC = /usr/bin/x86_64-w64-mingw32-g++-posix
+MINGW = C:/msys64/mingw64.exe
 FLAGS =  -std=c++17 -D_GLIBCXX_USE_NANOSLEEP
 CC_FLAGS = -static -O3
 DEBUG_FLAGS = -g -S
@@ -44,14 +45,17 @@ dynamic-unix:
 
 # tests
 
+wtest-h:
+	$(MINGW) $(FLAGS) $(CC_FLAGS) test/test_h.cpp -o test/test.exe
+
 test-h:
 	$(CC) $(FLAGS) $(CC_FLAGS) test/test_h.cpp -o test/test.exe
 
 test-static:
-	$(CC) $(FLAGS) $(CC_FLAGS) test/test_bin.cpp $(BIN_PATH)/libcongl.a -o test/test.exe
+	$(CC) $(FLAGS) $(CC_FLAGS) test/test_bin.cpp $(BIN_PATH)/mingw/libcongl.a -o test/test.exe
 
 test-dynamic:
 	$(CC) $(FLAGS) $(CC_FLAGS) test/test_bin.cpp -L$(BIN_PATH)/mingw -lcongl -o test/test.exe
 
-rofl:
-	$(CC) $(FLAGS) $(CC_FLAGS) roflcopter/rofl.cpp -o roflcopter/rofl.exe
+test-test:
+	$(CC) $(FLAGS) $(CC_FLAGS) test/test.cpp -o test/test.exe
