@@ -26,7 +26,7 @@ namespace ConGL::eng2D::shapes {
         short startY = position.Y - cameraPOS.Y, y;
         for (short x = position.X - cameraPOS.X; x < toX; ++x) {
             for (y = startY; y < toY; ++y) 
-                screen->setPX(PIXEL({x, y}, fill.ch, fill.col));
+                screen->setPX({{x, y}, fill.ch, fill.col});
         }
     }
     
@@ -59,7 +59,7 @@ namespace ConGL::eng2D::shapes {
                     
                     y = centerY + toY - 1;
                     for (x = centerX - toX; x < centerX + toX; ++x)         // bottom half of the ellipse
-                        screen->setPX(PIXEL({x, y}, fill.ch, fill.col));
+                        screen->setPX({{x, y}, fill.ch, fill.col});
                 }
             }
 
@@ -74,19 +74,23 @@ namespace ConGL::eng2D::shapes {
     Sprite::Sprite(std::string texturePath) : Sprite(txr::Texture(texturePath)) {}
 
     void Sprite::draw(Screen* screen, COORD cameraPOS) {
+        COORD pSize = ptexture->size;
         short toX = position.X + size.X - cameraPOS.X;
         short toY = position.Y + size.Y - cameraPOS.Y;
 
-        double tstepX = (double) ptexture->size.X / size.X, tstepY = (double) ptexture->size.Y / size.Y;    // stretching texture
+        double tstepX = (double) pSize.X / size.X, tstepY = (double) pSize.Y / size.Y;    // stretching texture
         double tX = 0, tY = 0;                                                                              // current x and y on texture
 
         PIXEL curr;
         short startY = position.Y - cameraPOS.Y, y;
         short startX = position.X - cameraPOS.X, x;
-        for (y = startY; y < toY; ++y) {
+        COORD scrSize = screen->getScrSize();
+        for (y = startY; y < toY && y < scrSize.Y; ++y) {
             for (x = startX; x < toX; ++x) {
                 curr = ptexture->data[(int) tY][(int) tX];
-                if (curr.ch != L' ' && (curr.col >> 3 * 8)) screen->setPX(PIXEL({x, y}, curr.ch, curr.col));
+                PIXEL sPX = screen->getPX({x, y});
+                // checking for charachter and color bitmapping
+                screen->setPX({{x, y}, curr.ch == L' ' ? sPX.ch : curr.ch, COLOR (sPX.col >> 8 && !curr.col >> 16 ? (sPX.col >> 8 << 8) | curr.col : curr.col)});
                 tX += tstepX;
             }
             tX = 0;
