@@ -41,6 +41,11 @@
 struct COORD {
     short X, Y;
 };
+
+using DWORD = unsigned long;
+
+// colors
+
 #define FOREGROUND_BLUE 0x0001
 #define FOREGROUND_GREEN 0x0002
 #define FOREGROUND_RED 0x0004
@@ -61,24 +66,20 @@ namespace ConGL {
 // colors 
 namespace ConGL::colors {
     // foreground colors
-    namespace FG {
-        constexpr COLOR RED = FOREGROUND_RED;
-        constexpr COLOR GREEN = FOREGROUND_GREEN;
-        constexpr COLOR BLUE = FOREGROUND_BLUE;
-        constexpr COLOR BLACK = 0x0000;
-        constexpr COLOR WHITE = RED | GREEN | BLUE;
-        constexpr COLOR INTENSE = FOREGROUND_INTENSITY;
-    }
+    constexpr COLOR FG_RED = FOREGROUND_RED;
+    constexpr COLOR FG_GREEN = FOREGROUND_GREEN;
+    constexpr COLOR FG_BLUE = FOREGROUND_BLUE;
+    constexpr COLOR FG_BLACK = 0x0000;
+    constexpr COLOR FG_WHITE = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
+    constexpr COLOR FG_INTENSE = FOREGROUND_INTENSITY;
 
     // background colors
-    namespace BG {
-        constexpr COLOR RED = BACKGROUND_RED;
-        constexpr COLOR GREEN = BACKGROUND_GREEN;
-        constexpr COLOR BLUE = BACKGROUND_BLUE;
-        constexpr COLOR BLACK = 0x0000;
-        constexpr COLOR WHITE = RED | GREEN | BLUE;
-        constexpr COLOR INTENSE = BACKGROUND_INTENSITY;
-    }
+    constexpr COLOR BG_RED = BACKGROUND_RED;
+    constexpr COLOR BG_GREEN = BACKGROUND_GREEN;
+    constexpr COLOR BG_BLUE = BACKGROUND_BLUE;
+    constexpr COLOR BG_BLACK = 0x0000;
+    constexpr COLOR BG_WHITE = BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE;
+    constexpr COLOR BG_INTENSE = BACKGROUND_INTENSITY;
 
     constexpr COLOR UNDERSCORE = COMMON_LVB_UNDERSCORE;
 }
@@ -97,12 +98,15 @@ namespace ConGL {
 
         COORD pos = {0, 0};
         wchar_t ch = L' ';
-        COLOR col = colors::FG::WHITE;
+        COLOR col = colors::FG_WHITE;
     };
 }
 
 #ifdef _WIN32 
 namespace ConGL {
+
+    // SCREEN
+
     class WinCon {
     public:
         WinCon() = default;
@@ -190,10 +194,18 @@ namespace ConGL {
     };
 
     using HScreen = WinCon;
+
+
+    // INPUT
+    
+    class WinInput {
+        WinInput();
+    };
 }
 
 #ifndef BIN_LINK
-#include "lib/win_console.cpp"
+#include "lib/console_win.cpp"
+#include "lib/input_win.cpp"
 #endif // BIN_LINK
 #else
 namespace ConGL {
@@ -208,6 +220,9 @@ namespace ConGL {
 #endif
 
 namespace ConGL {
+
+    // SCREEN
+
     class Screen {
     public:
         Screen();
@@ -249,14 +264,32 @@ namespace ConGL {
         HScreen* hs;
     };
 
+
+    // INPUT
+
+    class Input {
+        Input();
+        
+        bool isDown(const char* key, DWORD ctrlState = 0);
+        bool released(const char* key, DWORD ctrlState = 0);
+
+        COORD getCursorPos();
+        COORD mousePressed(DWORD button, DWORD ctrlState = 0);
+    };
+
     // interacting with keys
     namespace keys {
         // if key is down
         bool down(char key);
         // if key was released
         bool released(char key);
+    
+        constexpr DWORD MOUSE_LEFT = FROM_LEFT_1ST_BUTTON_PRESSED;
+        constexpr DWORD MOUSE_MID = FROM_LEFT_2ND_BUTTON_PRESSED;
+        constexpr DWORD MOUSE_RIGHT = RIGHTMOST_BUTTON_PRESSED;
+        constexpr DWORD MOUSE_4 = FROM_LEFT_3RD_BUTTON_PRESSED;
+        constexpr DWORD MOUSE_5 = FROM_LEFT_4TH_BUTTON_PRESSED;
     }
-
 }
 
 namespace ConGL::eng2D::txr {
@@ -271,7 +304,7 @@ namespace ConGL::eng2D::txr {
 
         // set texture through arrays of characters
         template <short X, short Y> 
-        void setProper(wchar_t _data[Y][X], COLOR fill = colors::FG::WHITE);
+        void setProper(wchar_t _data[Y][X], COLOR fill = colors::FG_WHITE);
 
         PIXEL** data;
         COORD size = {0, 0};
@@ -313,7 +346,7 @@ namespace ConGL::eng2D::shapes {
             void setFilling(PIXEL);
 
         private:
-            PIXEL fill = colors::BG::WHITE;
+            PIXEL fill = colors::BG_WHITE;
     };
 
     class Ellipse : public Figure {
@@ -327,7 +360,7 @@ namespace ConGL::eng2D::shapes {
             void setFilling(PIXEL);
 
         private:
-            PIXEL fill = colors::BG::WHITE;
+            PIXEL fill = colors::BG_WHITE;
     };
 
     class Sprite : public Figure {
@@ -352,7 +385,7 @@ namespace ConGL::eng2D::shapes {
             txr::Texture storeTexture;
     };
 
-    // TODO: text using fonts
+    // TODO: text using fonts 
 }
 
 namespace ConGL::eng2D {
