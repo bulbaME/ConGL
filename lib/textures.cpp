@@ -59,7 +59,7 @@ namespace ConGL::eng2D::txr {
         file.get();
         PIXEL** data = new PIXEL*[size.Y];
 
-        char ch, r_col[8];
+        char ch, r_col[4];
         std::string df("0x");
         COLOR col;
 
@@ -68,7 +68,7 @@ namespace ConGL::eng2D::txr {
             data[y] = new PIXEL[size.X];
             for (short x = 0; x < size.X; ++x) {
                 ch = file.get();                        // 1 char byte
-                file.get(r_col, 8);                     // 4 color bytes (00 - FF)
+                file.get(r_col, 4);                     // 4 color bytes (0000 - FFFF)
                 col = std::stoul(df + r_col, nullptr, 16);
                 data[y][x] = PIXEL((wchar_t) ch, col);
             }
