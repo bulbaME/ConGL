@@ -60,7 +60,7 @@ using DWORD = unsigned long;
 #endif
 
 namespace ConGL {
-    using COLOR = unsigned short;
+    using COLOR = DWORD;
 }
 
 // colors 
@@ -85,7 +85,10 @@ namespace ConGL::colors {
 }
 
 namespace ConGL {
-    constexpr wchar_t W_BLOCK = L'█';
+    // full filled block
+    constexpr wchar_t W_FF_BLOCK = L'█';
+    // half filled block
+    constexpr wchar_t W_HF_BLOCK = L'▒';
 
     // pixel object
     struct PIXEL {
@@ -295,7 +298,7 @@ namespace ConGL {
 namespace ConGL::eng2D::txr {
     struct Texture {
         Texture();
-        Texture(std::string path);
+        Texture(const char* path);
         ~Texture();
 
         // set texture through arrays of pixels
@@ -306,12 +309,11 @@ namespace ConGL::eng2D::txr {
         template <short X, short Y> 
         void setProper(wchar_t _data[Y][X], COLOR fill = colors::FG_WHITE);
 
-        PIXEL** data;
+        Texture operator=(const Texture&);
+
+        PIXEL** data = nullptr;
         COORD size = {0, 0};
     };
-
-    // load from file
-    Texture loadTexture(std::string filename);
 }
 
 namespace ConGL::eng2D::shapes {
@@ -367,13 +369,11 @@ namespace ConGL::eng2D::shapes {
         public:
             Sprite() = default;
             // define only size
-            Sprite(COORD _size);
-            // define texture with object
-            Sprite(txr::Texture _texture);
+            Sprite(COORD);
             // define texture with pointer
-            Sprite(txr::Texture* _ptexture);
+            Sprite(txr::Texture*);
             // define texture with path
-            Sprite(std::string texturePath);
+            Sprite(const char*);
 
             void draw(Screen*, COORD cameraPOS);
 
@@ -382,7 +382,6 @@ namespace ConGL::eng2D::shapes {
 
         private:
             txr::Texture* ptexture;
-            txr::Texture storeTexture;
     };
 
     // TODO: text using fonts 
