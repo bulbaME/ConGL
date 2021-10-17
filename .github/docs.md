@@ -1,11 +1,5 @@
 # ConGL 
 
-## Textures
-texture [formatter](../textures/bin/formatter.exe) that creates `.txr` files that can be used later
-Usage - `formatter <filename> <output>`
-
-texture [example](../textures/example) 
-
 ## ::colors
 
 ##### backgorund and foreground colors
@@ -125,3 +119,5 @@ Loads texture from file. Returns `Texture`.
 | ---- | ----------- | ---------- | ------ |
 | `<short X, short Y>` setProper | loads texture from 2d array | `wchar_t` data`[Y][X]` |  |
 | `<short X, short Y>` setProper | loads texture from 2d array | `PIXEL` data`[Y][X]` |  |
+
+#### More about textures [here](textures.md)

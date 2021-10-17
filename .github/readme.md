@@ -13,7 +13,7 @@ to create simple projects.
 
 ## Documentation
 
-Screen
+#### Screen
 ```cpp
 // ConGL namespace
 Screen screen;
@@ -51,7 +51,7 @@ PIXEL fill(L'G', colors::BG::BLUE | colors::BG::RED);
 rect.setFilling(fill);
 ```
 
-Layout 
+#### Layout 
 ```cpp
 // eng2D namespace 
 Layout main(&screen);
@@ -96,12 +96,15 @@ int main() {
 ```
 
 
-If you compile with binary add `#define BIN_LINK` before including congl
+##### If you compile with binary add `#define BIN_LINK` before including congl
+
+### Textures
+
+ConGL sprites can use either self-defined textures (like is shown in this [example](examples/roflcopter.cpp)) or .txr files (check out [textures](examples/showimage.cpp))
 
 
-## Reference
-#### ConGL latest release -> check out [full reference](docs.md)
+### [Reference](docs.md)
 
 ### Some ConGL [projects](examples.md) 
 
-### Check out [contributing](contributing.md)
+### [Contributing](contributing.md)

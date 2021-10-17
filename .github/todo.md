@@ -36,5 +36,5 @@ Pixels
 ### Textures
 
 - [ ] Texture editor
-- [ ] Texture convertor (plain text)
-- [ ] Texture convertor (image)
+- [x] Texture convertor (plain text)
+- [x] Texture convertor (image)
