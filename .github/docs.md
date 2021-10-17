@@ -11,6 +11,9 @@
  - **WHITE**
  - **INTENSE**
 
+`wchar_t` **W_FF_BLOCK =  █**
+`wchar_t` **W_HF_BLOCK =  ▒**
+
 ## struct PIXEL
 
 ##### fields
@@ -36,15 +39,52 @@
 | toggleAutosize | screen will resize automaticly when nedeed | `bool` state | |
 | toggleMeta | meta data will be shown on the top of screen  | `bool` state | |
 
-## ::keys
 
-KEY can either `char` or [windows.h](https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes) virtual-key
 
-##### methods
+### KEY_STATE 
+##### fields
+| Name | Description | Type |
+| ---- | ----------- | ---- |
+| key | key | `wchar_t` |
+| released | if key was released | `bool` |
+| ctrlState | control state | `DWORD` |
+
+### ::keys
+
+##### control states 
+
+| Name | Description | Type |
+| ---- | ----------- | ----- |
+| CAPS_ON | if capslock is on | `DWORD` |
+| ALT_LEFT | if left alt is down | `DWORD` |
+| ALT_RIGHT | if right alt is down | `DWORD` |
+| CTRL_LEFT | if left control is down | `DWORD` |
+| CTRL_RIGHT | if right control is down | `DWORD` |
+| SHIFT | if shift is down | `DWORD` |
+
+Also you can combine this control states (e.g. `CAPS_ON | SHIFT`)
+
+## Input (`Screen*` screen)
+
 | Name | Description | Parameters | Return |
 | ---- | ----------- | ---------- | ------ |
-| down | checks if key is down | KEY | `bool` state | 
-| released | cheks if key was released | KEY | `bool` state | 
+| bind | binds function to key press  | `KEY_STATE` key, `InputCallback` |  | 
+| unbind | binds function from a key press | `KEY_STATE` key |  | 
+
+`InputCallback` is a user defined function which has single `KEY_STATE` parameter, and returns `void`
+
+
+`KEY` can be either `char` or [windows.h](https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes) virtual-key
+
+##### functions
+| Name | Description | Parameters | Return |
+| ---- | ----------- | ---------- | ------ |
+| down | checks if key is down | `KEY` | `bool` state | 
+| released | cheks if key was released | `KEY` | `bool` state | 
+
+**It's not recomended to use this functions, better use `Input`**
+
+
 
 ## ::eng2D
 ####  Layout (`Screen*` screen)
