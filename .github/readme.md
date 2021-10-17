@@ -100,7 +100,7 @@ int main() {
 
 ### Textures
 
-ConGL sprites can use either self-defined textures (like is shown in this [example](examples/roflcopter.cpp)) or .txr files (check out [textures](examples/showimage.cpp))
+ConGL sprites can use either self-defined textures (like is shown in this [example](examples/roflcopter.cpp)) or .txr files (check out [textures](textures.md))
 
 
 ### [Reference](docs.md)
