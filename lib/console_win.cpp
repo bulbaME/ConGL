@@ -78,11 +78,11 @@ void WinCon::flushScreen() {
 }
 
 void WinCon::draw(bool autoClear = true) {
-    if (autoSize) resizeScreen();
 
     if (renderDone) {
         renderDone = false;
         renderThreadFunc(autoClear);
+        if (autoSize) resizeScreen();
     }
 
     // clearing buffers
