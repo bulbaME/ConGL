@@ -37,45 +37,53 @@ namespace ConGL::eng2D::txr {
         }
     }
 
-    Texture::Texture(std::string path) {
-        Texture texture = loadTexture(path);
-        data = texture.data;
-        size = texture.size;
-    }
-
-    Texture loadTexture(std::string filename) {
+    Texture::Texture(const char* filename) {
         std::string path = std::filesystem::current_path().string() + '\\' + filename;
         std::ifstream file;
-        Texture texture;
 
         file.open(path);
         if (!file || file.fail() || !file.is_open()) {
             std::cout << "Unnable to load " << filename << std::endl;
-            return texture;
+            Texture();
+            return;
         }
 
-        COORD size;
         file >> size.X >> size.Y;
         file.get();
-        PIXEL** data = new PIXEL*[size.Y];
 
-        char ch, r_col[4];
+        char ch, ch_col[4];
         std::string df("0x");
         COLOR col;
 
         // parsing file
+        delete [] data;
+        data = new PIXEL*[size.Y];
         for (short y = 0; y < size.Y; ++y) {
             data[y] = new PIXEL[size.X];
             for (short x = 0; x < size.X; ++x) {
-                ch = file.get();                        // 1 char byte
-                file.get(r_col, 4);                     // 4 color bytes (0000 - FFFF)
-                col = std::stoul(df + r_col, nullptr, 16);
-                data[y][x] = PIXEL((wchar_t) ch, col);
+                ch = file.get();
+                file.get(ch_col, 5);  // 4 color bytes (0000 - FFFF)
+                
+                data[y][x] = PIXEL(ch == '#' ? L'▒' : (wchar_t) ch, std::stoul(df+ch_col, nullptr, 16));
             }
         }
 
-        texture.data = data;
-        texture.size = size;
-        return texture;
+        file.close();
+    }
+
+    Texture Texture::operator=(const Texture& other) {
+        if (this == &other) 
+            return *this;
+
+        size = other.size;
+        delete [] data;
+        data = new PIXEL*[size.Y];
+        for (short y = 0; y < size.Y; ++y) {
+            data[y] = new PIXEL[size.X];
+            for (short x = 0; x < size.X; ++x) 
+                data[y][x] = other.data[y][x];
+        } 
+
+        return *this;
     }
 }
