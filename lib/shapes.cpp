@@ -69,9 +69,8 @@ namespace ConGL::eng2D::shapes {
     // SPRITE
 
     Sprite::Sprite(COORD _size) { size = _size; }
-    Sprite::Sprite(txr::Texture _texture) : Sprite(_texture.size) { storeTexture = _texture; ptexture = &storeTexture; }
     Sprite::Sprite(txr::Texture* _ptexture) : Sprite(_ptexture->size) { ptexture = _ptexture; }
-    Sprite::Sprite(std::string texturePath) : Sprite(txr::Texture(texturePath)) {}
+    Sprite::Sprite(const char* texturePath) : Sprite(new txr::Texture(texturePath)) { }
 
     void Sprite::draw(Screen* screen, COORD cameraPOS) {
         COORD pSize = ptexture->size;
