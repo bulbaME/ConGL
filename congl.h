@@ -29,6 +29,7 @@
 #include <vector>
 #include <map>
 #include <bitset>
+#include <tuple>
 
 #define PI 3.14159
 
@@ -103,6 +104,30 @@ namespace ConGL {
         wchar_t ch = L' ';
         COLOR col = colors::FG_WHITE;
     };
+
+    struct KEY_STATE {
+        bool operator==(KEY_STATE&) const;
+
+        wchar_t key;
+        bool released = false;
+        DWORD ctrlState = 0;
+    };
+
+    using InputCallback = void (*)(KEY_STATE);
+
+    namespace keys {
+        // if key is down
+        bool down(char key);
+        // if key was released
+        bool released(char key);
+
+        constexpr DWORD CAPS_ON = 0x0080;
+        constexpr DWORD ALT_LEFT = 0x0002;
+        constexpr DWORD ALT_RIGHT = 0x0001;
+        constexpr DWORD CTRL_LEFT = 0x0008;
+        constexpr DWORD CTRL_RIGHT = 0x0004;
+        constexpr DWORD SHIFT = 0x0010;
+    }
 }
 
 #ifdef _WIN32 
@@ -201,9 +226,18 @@ namespace ConGL {
 
     // INPUT
     
-    class WinInput {
-        WinInput();
+    struct WinInput {
+        WinInput(HANDLE);
+        ~WinInput();
+
+        HANDLE h;
+        std::map<KEY_STATE, InputCallback> binds;
+        bool loopTh = true;
+
+        static void _thread(WinInput*);
     };
+
+    using HInput = WinInput;
 }
 
 #ifndef BIN_LINK
@@ -212,7 +246,14 @@ namespace ConGL {
 #endif // BIN_LINK
 #else
 namespace ConGL {
-    // TODO: UnixScreen definition 
+    // TODO: UnixScreen 
+    class UnixScreen {
+
+    };
+
+    class UnixInput {
+
+    };
 
     using HScreen = UnixScreen;
 }
@@ -271,28 +312,18 @@ namespace ConGL {
     // INPUT
 
     class Input {
-        Input();
-        
-        bool isDown(const char* key, DWORD ctrlState = 0);
-        bool released(const char* key, DWORD ctrlState = 0);
-
-        COORD getCursorPos();
-        COORD mousePressed(DWORD button, DWORD ctrlState = 0);
-    };
-
-    // interacting with keys
-    namespace keys {
-        // if key is down
-        bool down(char key);
-        // if key was released
-        bool released(char key);
+    public:
+        Input(Screen*);
     
-        constexpr DWORD MOUSE_LEFT = FROM_LEFT_1ST_BUTTON_PRESSED;
-        constexpr DWORD MOUSE_MID = FROM_LEFT_2ND_BUTTON_PRESSED;
-        constexpr DWORD MOUSE_RIGHT = RIGHTMOST_BUTTON_PRESSED;
-        constexpr DWORD MOUSE_4 = FROM_LEFT_3RD_BUTTON_PRESSED;
-        constexpr DWORD MOUSE_5 = FROM_LEFT_4TH_BUTTON_PRESSED;
-    }
+        // bind a callback for key press event
+        void bind(KEY_STATE, InputCallback);
+        // remove bind
+        void unbind(KEY_STATE);
+
+        HInput* _getHInput();
+    private:
+        HInput* hi;
+    };
 }
 
 namespace ConGL::eng2D::txr {
