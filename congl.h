@@ -13,6 +13,7 @@
 //                                                              //
 //--------------------------------------------------------------//
 
+
 #ifndef CONGL
 #define CONGL
 
@@ -22,7 +23,6 @@
 #include <algorithm>
 #include <stdio.h>
 #include <iostream>
-#include <filesystem>
 #include <string>
 #include <chrono>
 #include <thread>
@@ -90,6 +90,8 @@ namespace ConGL {
     constexpr wchar_t W_FF_BLOCK = L'█';
     // half filled block
     constexpr wchar_t W_HF_BLOCK = L'▒';
+    // quad filled block
+    constexpr wchar_t W_QF_BLOCK = L'░';
 
     // pixel object
     struct PIXEL {
@@ -188,7 +190,6 @@ namespace ConGL {
         // toggle metadata
         void metaToggle(bool);
 
-    private:
         HANDLE sHandler;
         CONSOLE_SCREEN_BUFFER_INFO screenInfo;
         COORD sSize;  // screen size
@@ -214,6 +215,7 @@ namespace ConGL {
         void calcdOffset();
         DWORD written;
         void* buff_res;
+        bool resized = false;
 
         // time
         int frameTime = 0, avgWait = 0;  // in milliseconds
@@ -349,70 +351,87 @@ namespace ConGL::eng2D::txr {
 
 namespace ConGL::eng2D::shapes {
     class Figure {
-        public:
-            Figure() = default;
+    public:
+        Figure() = default;
 
-            // implementaion of rendering on to the screen
-            virtual void draw(Screen*, COORD) = 0;
+        // implementaion of rendering on to the screen
+        virtual void draw(Screen*, COORD) = 0;
 
-            // positioning on the Layout
-            void setPos(COORD);
-            COORD getPos();
-            void movePos(COORD);
+        // positioning on the Layout
+        void setPos(COORD);
+        COORD getPos();
+        void movePos(COORD);
 
-            void setSize(COORD);
-            COORD getSize();
+        void setSize(COORD);
+        COORD getSize();
 
-        protected:
-            COORD position = {0, 0};
-            COORD size = {0, 0};
+    protected:
+        COORD position = {0, 0};
+        COORD size = {0, 0};
     };
 
     class Rectangle : public Figure {
-        public:
-            Rectangle() = default;
-            Rectangle(COORD size);
+    public:
+        Rectangle() = default;
+        Rectangle(COORD size);
 
-            void draw(Screen*, COORD cameraPOS);
+        void draw(Screen*, COORD cameraPOS);
 
-            // filling of the rectangle
-            void setFilling(PIXEL);
+        // filling of the rectangle
+        void setFilling(PIXEL);
 
-        private:
-            PIXEL fill = colors::BG_WHITE;
+    private:
+        PIXEL fill = colors::BG_WHITE;
     };
 
     class Ellipse : public Figure {
-        public:
-            Ellipse() = default;
-            Ellipse(COORD);
+    public:
+        Ellipse() = default;
+        Ellipse(COORD);
 
-            void draw(Screen*, COORD cameraPOS);
+        void draw(Screen*, COORD cameraPOS);
 
-            // filling of the ellipse
-            void setFilling(PIXEL);
+        // filling of the ellipse
+        void setFilling(PIXEL);
 
-        private:
-            PIXEL fill = colors::BG_WHITE;
+    private:
+        PIXEL fill = colors::BG_WHITE;
     };
 
     class Sprite : public Figure {
-        public:
-            Sprite() = default;
-            // define only size
-            Sprite(COORD);
-            // define texture with pointer
-            Sprite(txr::Texture*);
-            // define texture with path
-            Sprite(const char*);
+    public:
+        Sprite() = default;
+        // define only size
+        Sprite(COORD);
+        // define texture with pointer
+        Sprite(txr::Texture*);
+        // define texture with path
+        Sprite(const char*);
 
-            void draw(Screen*, COORD cameraPOS);
+        void draw(Screen*, COORD cameraPOS);
 
-            // set texture with pointer
-            void setTexture(txr::Texture*);
+        // set texture with pointer
+        void setTexture(txr::Texture*);
 
-        private:
-            txr::Texture* ptexture;
+    private:
+        txr::Texture* ptexture;
+    };
+
+    class Text : public Figure {
+    public:
+        Text() = default;
+        Text(std::string text);
+
+        void draw(Screen*, COORD cameraPOS);
+
+        // filling of the ellipse
+        void setFilling(PIXEL);
+        // set text
+        void setText(std::string);
+
+    private:
+        PIXEL fill = colors::FG_WHITE;
+        std::string text = " ";
     };
 
     // TODO: text using fonts 
