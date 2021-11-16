@@ -13,6 +13,7 @@
 
 `wchar_t` **W_FF_BLOCK =  █**
 `wchar_t` **W_HF_BLOCK =  ▒**
+`wchar_t` **W_QF_BLOCK =  ░**
 
 ## struct PIXEL
 
@@ -146,6 +147,15 @@ You can extend this class for your purposes
 | ---- | ----------- | ---------- | ------ |
 | setTexture | sets texture | `Texture*` texture | |
 
+
+#### Text : Figure (`string` text)
+
+##### public methods
+
+| Name | Description | Parameters | Return |
+| ---- | ----------- | ---------- | ------ |
+| setFilling | sets filling | `PIXEL` fill | |
+| setText | sets text | `string` text | |
 
 ## ::txr 
 path -> texture path
