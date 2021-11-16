@@ -4,3 +4,4 @@ test*
 # programs folders
 .obsidian
 .vscode
+__pycache__
