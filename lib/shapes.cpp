@@ -98,4 +98,46 @@ namespace ConGL::eng2D::shapes {
     }
 
     void Sprite::setTexture(txr::Texture* _ptexture) { ptexture = _ptexture; }
+
+
+    // TEXT 
+
+
+    void Text::setFilling(PIXEL _fill) { fill = _fill; }
+    void Text::setText(std::string _text) {
+        text = _text;
+        size = {1, 1};
+        short lenC = 0;
+        for (char x : _text) {
+            if (x == '\n') {
+                lenC > size.X ? (size.X = lenC) :0;
+                lenC = 0;
+                ++size.Y;
+            } else ++lenC;
+        }
+
+        lenC > size.X ? (size.X = lenC) :0;
+    }
+
+    void Text::draw(Screen* screen, COORD cameraPOS) {
+        COORD pos = cameraPOS;
+        pos.X += position.X;
+        pos.Y += position.Y;
+
+        COORD temp = pos;
+        PIXEL px = fill;
+        for (char x : text) {
+            if (x == '\n') {
+                ++temp.Y;
+                temp.X = pos.X;
+            } else {
+                ++temp.X;
+                px.ch = (wchar_t) x;
+                px.pos = temp;
+                screen->setPX(px);
+            }
+        }
+    }
+
+    Text::Text(std::string _text) { setText(_text); }
 }
