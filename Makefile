@@ -1,6 +1,6 @@
 CC = /usr/bin/x86_64-w64-mingw32-g++-posix
 MINGW = C:/msys64/mingw64.exe
-FLAGS =  -std=c++17 -D_GLIBCXX_USE_NANOSLEEP
+FLAGS =  -std=c++11 -D_GLIBCXX_USE_NANOSLEEP -fPIC
 CC_FLAGS = -static -O3
 DEBUG_FLAGS = -g -S
 BIN_PATH = bin
@@ -36,15 +36,15 @@ static-unix:
 	ar rcs $(BIN_PATH)/g++/libcongl.a congl.o
 
 dynamic-win: 
-	$(CC) $(FLAGS) $(CC_FLAGS) -c congl.cpp -fPIC
-	$(CC) -shared congl.o -o $(BIN_PATH)/mingw/libcongl.so
+	$(CC) -c congl.cpp
+	$(CC) -shared -Wall congl.o -o $(BIN_PATH)/mingw/libcongl.so 
 
 dynamic-unix: 
 	g++ $(FLAGS) $(CC_FLAGS) -c congl.cpp -fPIC
 	g++ -shared congl.o -o $(BIN_PATH)/g++/libcongl.so
 
-# tests
 
+# tests
 wtest-h:
 	$(MINGW) $(FLAGS) $(CC_FLAGS) test/test_h.cpp -o test/test.exe
 
@@ -55,7 +55,10 @@ test-static:
 	$(CC) $(FLAGS) $(CC_FLAGS) test/test_bin.cpp $(BIN_PATH)/mingw/libcongl.a -o test/test.exe
 
 test-dynamic:
-	$(CC) $(FLAGS) $(CC_FLAGS) test/test_bin.cpp -L$(BIN_PATH)/mingw -lcongl -o test/test.exe
+	cp $(BIN_PATH)/mingw/libcongl.so libcongl.dll
+	cp $(BIN_PATH)/mingw/libcongl.so test/libcongl.so
+	$(CC) -L./ -o test/test.exe test/test_bin.cpp -lcongl
+	rm *.dll
 
 test-test:
 	$(CC) $(FLAGS) $(CC_FLAGS) test/test.cpp -o test/test.exe
