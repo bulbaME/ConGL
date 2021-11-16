@@ -138,26 +138,28 @@ def readImage(filepath):
 
     return texture, size
 
-def main():
+def getCode(filename) -> str:
     texture, size = '', []
 
-    texture, size = readImage(sys.argv[1])
     try: 
-        open(sys.argv[1], 'rb')
+        open(filename, 'rb')
 
         try:
-            Img.open(sys.argv[1])
-            texture, size = readImage(sys.argv[1])
+            Img.open(filename)
+            texture, size = readImage(filename)
         except:
-            texture, size = readText(sys.argv[1])
+            texture, size = readText(filename)
 
     except:
-        print(f"No such file named '{sys.argv[1]}'")
+        print(f"No such file named '{filename}'")
         return
 
-    code = f'{size[0]} {size[1]} {texture}'
+    return f'{size[0]} {size[1]} {texture}'
 
-    filename = ''
+def main():
+    code = getCode(sys.argv[1])
+    if not code: return
+    
     if (len(sys.argv) >= 3):
         filename = sys.argv[2].split('.')[0] + '.txr'
     else:
