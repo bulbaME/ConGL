@@ -38,7 +38,7 @@ namespace ConGL::eng2D::txr {
     }
 
     Texture::Texture(const char* filename) {
-        std::string path = std::filesystem::current_path().string() + '\\' + filename;
+        std::string path = filename;
         std::ifstream file;
 
         file.open(path);
