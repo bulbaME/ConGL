@@ -78,16 +78,20 @@ void WinCon::flushScreen() {
 }
 
 void WinCon::draw(bool autoClear = true) {
-
     if (renderDone) {
-        renderDone = false;
-        renderThreadFunc(autoClear);
         if (autoSize) resizeScreen();
-    }
+        if (!resized) {
+            renderThreadFunc(autoClear);
+            renderDone = false;
+            // clearing buffers
+            std::fill_n(frameBuffP, pixelC, PIXEL());
+            frameBuff.clear();
+        }
+        resized = false;
 
-    // clearing buffers
-    std::fill_n(frameBuffP, pixelC, PIXEL());
-    frameBuff.clear();
+        // TODO: try implementing solution without using Sleep 
+        Sleep(1);
+    }
 }
 
 void WinCon::setFont(COORD size) {
@@ -121,6 +125,7 @@ void WinCon::resizeScreen() {
 
     flushScreen();
     initScr();
+    resized = true;
 }
 
 void WinCon::calcdOffset() {
@@ -133,7 +138,6 @@ void WinCon::calcdOffset() {
 // RENDERING
 
 void WinCon::_render(WinCon* t) {
-    try {
 
     // FRAME TIME
 
@@ -173,20 +177,24 @@ void WinCon::_render(WinCon* t) {
             t->tempFrameBuff.push_back(PIXEL({short (m + shift), 0}, (wchar_t) cmetadata[shift], colors::FG_WHITE));
     }
 
+
+    try {
+
     // RENDERING
     wchar_t curr[1];
     for (PIXEL& c : t->tempFrameBuff) {
         curr[0] = c.ch;
-        t->screenBuffP[c.pos.X + c.pos.Y * t->sSize.X] = c;
+        int arrPos = c.pos.X + c.pos.Y * t->sSize.X;
+        if (t->screenBuffP && sizeof(t->screenBuffP[arrPos]))
+            t->screenBuffP[arrPos] = c;
 
         SetConsoleCursorPosition(t->sHandler, c.pos);
         SetConsoleTextAttribute(t->sHandler, c.col);
         WriteConsoleW(t->sHandler, curr, 1, &(t->written), t->buff_res);
     }
 
+    } catch (...) {};
     t->renderDone = true;
-
-    } catch (...) {}
 }
 
 // calls render thread
