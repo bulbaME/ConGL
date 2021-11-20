@@ -1,12 +1,12 @@
 
 
 //--------------------- (c) BULBA 2021 -------------------------//
-//                                                              //                                                          
+//                                                              //
 //        /$$$$$$                       /$$$$$$  /$$            //
 //       /$$__  $$                     /$$__  $$| $$            //
 //      | $$  \__/  /$$$$$$  /$$$$$$$ | $$  \__/| $$            //
 //      | $$       /$$__  $$| $$__  $$| $$ /$$$$| $$            //
-//      | $$      | $$  \ $$| $$  \ $$| $$|_  $$| $$            //       
+//      | $$      | $$  \ $$| $$  \ $$| $$|_  $$| $$            //
 //      | $$    $$| $$  | $$| $$  | $$| $$  \ $$| $$            //
 //      |  $$$$$$/|  $$$$$$/| $$  | $$|  $$$$$$/| $$$$$$$$      //
 //       \______/  \______/ |__/  |__/ \______/ |________/      //
@@ -450,13 +450,13 @@ namespace ConGL::eng2D {
             // adds figure to the layout ; returns figure's ID
             int addFigure(shapes::Figure* figure);
 
-            // returns pointer to figure
+            // returns pointer to the figure
             shapes::Figure* getFigure(int id);
 
             // disables figure on the layout
             void disableFigure(int id);
 
-            // endbles figure on the layout
+            // enables figure on the layout
             void enableFigure(int id);
 
             // checks collisions between two figures on the layout
