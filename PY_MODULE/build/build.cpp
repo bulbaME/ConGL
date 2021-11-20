@@ -39,11 +39,24 @@ namespace pybind11 { namespace detail {
 }}
 
 PYBIND11_MODULE(congl, m) { 
-    m.doc() = " ConGL \n Now on Python. ";
+    m.doc() = "\
+    //--------------------- (c) BULBA 2021 -------------------------// \n\
+    //                                                              // \n\
+    //        /$$$$$$                       /$$$$$$  /$$            // \n\
+    //       /$$__  $$                     /$$__  $$| $$            // \n\
+    //      | $$  \\__/  /$$$$$$  /$$$$$$$ | $$  \\__/| $$            // \n\
+    //      | $$       /$$__  $$| $$__  $$| $$ /$$$$| $$            // \n\
+    //      | $$      | $$  \\ $$| $$  \\ $$| $$|_  $$| $$            // \n\
+    //      | $$    $$| $$  | $$| $$  | $$| $$  \\ $$| $$            // \n\
+    //      |  $$$$$$/|  $$$$$$/| $$  | $$|  $$$$$$/| $$$$$$$$      // \n\
+    //       \\______/  \\______/ |__/  |__/ \\______/ |________/      // \n\
+    //                                                              // \n\
+    //--------------------- Now on Python. -------------------------// \
+    ";
     
     m.attr("W_FF_BLOCK") = &ConGL::W_FF_BLOCK;
     m.attr("W_HF_BLOCK") = &ConGL::W_HF_BLOCK;
-    m.attr("W_QF_BLOCK") = &ConGL::W_QF_BLOCK;    
+    m.attr("W_QF_BLOCK") = &ConGL::W_QF_BLOCK;
 
     // COORD CLASS
     py::class_<COORD>(m, "COORD")
@@ -51,7 +64,7 @@ PYBIND11_MODULE(congl, m) {
         .def_readwrite("Y", &COORD::Y);
 
     // PIXEL CLASS
-    py::class_<ConGL::PIXEL>(m, "PIXEL", "PIXEL class")
+    py::class_<ConGL::PIXEL>(m, "PIXEL", "pixel object")
         .def(py::init<>())
         .def(py::init<wchar_t>())
         .def(py::init<ConGL::COLOR>())
@@ -74,8 +87,8 @@ PYBIND11_MODULE(congl, m) {
     m_keys.attr("CTRL_RIGHT") = ConGL::keys::CTRL_RIGHT;
     m_keys.attr("SHIFT") = ConGL::keys::SHIFT;
 
-    m_keys.def("down", ConGL::keys::down);
-    m_keys.def("released", ConGL::keys::released);
+    m_keys.def("down", &ConGL::keys::down, "if key is down");
+    m_keys.def("released", &ConGL::keys::released, "if key was released");
 
 
     // COLORS SUB MODULE
@@ -103,17 +116,18 @@ PYBIND11_MODULE(congl, m) {
     // SCREEN CLASS
     py::class_<ConGL::Screen>(m, "Screen", "Screen class")
         .def(py::init<>())
-        .def("setPX", &ConGL::Screen::setPX)
-        .def("getPX", &ConGL::Screen::getPX)
-        .def("getScrSize", &ConGL::Screen::getScrSize)
-        .def("getSurfaceSize", &ConGL::Screen::getSurfaceSize)
-        .def("render", &ConGL::Screen::render)
-        .def("flush", &ConGL::Screen::flush)
-        .def("toggleAutosize", &ConGL::Screen::toggleAutosize)
-        .def("toggleMeta", &ConGL::Screen::toggleMeta)
-        .def("setFont", &ConGL::Screen::setFont)
-        .def("_setFpsLimit", &ConGL::Screen::_setFpsLimit)
-        .def("getFps", &ConGL::Screen::getFps);
+        .def("setPX", &ConGL::Screen::setPX, "set pixel to a specific position")
+        .def("getPX", &ConGL::Screen::getPX, "get pixel from a specific position")
+        .def("getScrSize", &ConGL::Screen::getScrSize, "returns screen size")
+        .def("setSurfaceSize", &ConGL::Screen::setSurfaceSize, "set surface size")
+        .def("getSurfaceSize", &ConGL::Screen::getSurfaceSize, "get surface size")
+        .def("render", &ConGL::Screen::render, "returns surface size")
+        .def("flush", &ConGL::Screen::flush, "clears screen")
+        .def("toggleAutosize", &ConGL::Screen::toggleAutosize, "toggle auto screen resizing")
+        .def("toggleMeta", &ConGL::Screen::toggleMeta, "toggle meta data")
+        .def("setFont", &ConGL::Screen::setFont, "set font size")
+        .def("_setFpsLimit", &ConGL::Screen::_setFpsLimit, "returns current fps")
+        .def("getFps", &ConGL::Screen::getFps, "");
 
     
     // 2D ENGINE
@@ -122,17 +136,17 @@ PYBIND11_MODULE(congl, m) {
     // LAYOUT CLASS
     py::class_<ConGL::eng2D::Layout>(m_eng2D, "Layout")
         .def(py::init<ConGL::Screen*>())
-        .def("setCamera", &ConGL::eng2D::Layout::setCamera)
-        .def("getCamera", &ConGL::eng2D::Layout::getCamera)
-        .def("addFigure", &ConGL::eng2D::Layout::addFigure)
-        .def("getFigure", &ConGL::eng2D::Layout::getFigure)
-        .def("disableFigure", &ConGL::eng2D::Layout::disableFigure)
-        .def("enableFigure", &ConGL::eng2D::Layout::enableFigure)
-        .def("collides", static_cast<bool (ConGL::eng2D::Layout::*)(int, int)>(&ConGL::eng2D::Layout::collides))
-        .def_static("collides_S", static_cast<bool (*)(ConGL::eng2D::shapes::Figure*, ConGL::eng2D::shapes::Figure*)>(&ConGL::eng2D::Layout::collides))
-        .def("onCollision", static_cast<bool (ConGL::eng2D::Layout::*)(int, int)>(&ConGL::eng2D::Layout::onCollision))
-        .def_static("onCollision_S", static_cast<bool (*)(ConGL::eng2D::shapes::Figure*, ConGL::eng2D::shapes::Figure*)>(&ConGL::eng2D::Layout::onCollision))
-        .def("draw", &ConGL::eng2D::Layout::draw);
+        .def("setCamera", &ConGL::eng2D::Layout::setCamera, "camera interface")
+        .def("getCamera", &ConGL::eng2D::Layout::getCamera, "camera interface")
+        .def("addFigure", &ConGL::eng2D::Layout::addFigure, "adds figure to the layout ; returns figure's ID")
+        .def("getFigure", &ConGL::eng2D::Layout::getFigure, "returns pointer to the figure")
+        .def("disableFigure", &ConGL::eng2D::Layout::disableFigure, "disables figure on the layout")
+        .def("enableFigure", &ConGL::eng2D::Layout::enableFigure, "enables figure on the layout")
+        .def("collides", static_cast<bool (ConGL::eng2D::Layout::*)(int, int)>(&ConGL::eng2D::Layout::collides), "checks collisions between two figures on the layout")
+        .def_static("collides_S", static_cast<bool (*)(ConGL::eng2D::shapes::Figure*, ConGL::eng2D::shapes::Figure*)>(&ConGL::eng2D::Layout::collides), "checks collisions between two figures")
+        .def("onCollision", static_cast<bool (ConGL::eng2D::Layout::*)(int, int)>(&ConGL::eng2D::Layout::onCollision), "checks if two figures on the layout are touching each other")
+        .def_static("onCollision_S", static_cast<bool (*)(ConGL::eng2D::shapes::Figure*, ConGL::eng2D::shapes::Figure*)>(&ConGL::eng2D::Layout::onCollision), "checks if two figures are touching each other")
+        .def("draw", &ConGL::eng2D::Layout::draw, "draw frame on to the screen");
     
     // TEXTURES
     py::module_ m_txr = m_eng2D.def_submodule("txr");
