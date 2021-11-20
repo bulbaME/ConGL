@@ -1,2 +1,3 @@
 recursive-include ConGL\docs *.py
 recursive-include ConGL\bin *.pyd
+README.md
