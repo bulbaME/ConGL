@@ -23,6 +23,12 @@ if __name__ == "__main__":
         print('\n' + FG + BOLD + doc + ENDC)
         
 else: 
-    congl_dir = os.sep.join(os.path.realpath(__file__).split(os.sep)[:-1])
-    sys.path.append(congl_dir)
-    from link_congl import *
+    pkg_dir = os.sep.join(os.path.realpath(__file__).split(os.sep)[:-1])
+    sys.path.append(pkg_dir)
+    
+    # import documented version
+    from docs.congl import *
+    # rewrite with binary when interpreting
+    from bin.congl import __doc__ as _doc
+    from bin.congl import *
+    __doc__ = _doc
