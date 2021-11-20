@@ -1,6 +1,6 @@
 # Python 🐍ConGL 🔮
 
-## pip: `pip install ConGL`
+## pip: `pip install -U ConGL`
 
 ### Why?
 This python package is intended for people who don't know C++ 
