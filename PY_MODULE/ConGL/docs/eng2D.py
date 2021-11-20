@@ -38,5 +38,5 @@ class Layout:
     
     '''
     
-import doc_shapes
-import doc_texture
+import docs.shapes as shapes
+import docs.texture as txr
