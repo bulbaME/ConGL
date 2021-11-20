@@ -64,8 +64,8 @@ W_FF_BLOCK : str
 W_HF_BLOCK : str
 W_QF_BLOCK : str
 
-# import docs.keys as keys 
-# import docs.colors as colors
-# import docs.eng2D as eng2D
+import doc_keys as keys 
+import doc_colors as colors
+import doc_eng2D as eng2D
 
 from bin.congl import *

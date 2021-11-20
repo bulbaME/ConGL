@@ -38,5 +38,5 @@ class Layout:
     
     '''
     
-import shapes
-import texture
+import doc_shapes
+import doc_texture

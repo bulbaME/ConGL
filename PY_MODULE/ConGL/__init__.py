@@ -25,4 +25,4 @@ if __name__ == "__main__":
 else: 
     congl_dir = os.sep.join(os.path.realpath(__file__).split(os.sep)[:-1])
     sys.path.append(congl_dir)
-    from congl import *
+    from link_congl import *
