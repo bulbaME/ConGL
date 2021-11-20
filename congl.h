@@ -331,7 +331,7 @@ namespace ConGL {
 namespace ConGL::eng2D::txr {
     struct Texture {
         Texture();
-        Texture(const char* path);
+        Texture(std::string path);
         ~Texture();
 
         // set texture through arrays of pixels
@@ -387,7 +387,7 @@ namespace ConGL::eng2D::shapes {
     class Ellipse : public Figure {
     public:
         Ellipse() = default;
-        Ellipse(COORD);
+        Ellipse(COORD size);
 
         void draw(Screen*, COORD cameraPOS);
 
@@ -402,11 +402,11 @@ namespace ConGL::eng2D::shapes {
     public:
         Sprite() = default;
         // define only size
-        Sprite(COORD);
+        Sprite(COORD size);
         // define texture with pointer
         Sprite(txr::Texture*);
         // define texture with path
-        Sprite(const char*);
+        Sprite(std::string path);
 
         void draw(Screen*, COORD cameraPOS);
 
