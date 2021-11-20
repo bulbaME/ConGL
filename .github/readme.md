@@ -98,6 +98,9 @@ int main() {
 
 ##### If you compile with binary add `#define BIN_LINK` before including congl
 
+### ConGL on Python 
+Now you can use ConGL API in python. See [readme](../PY_MODULE/README.md)
+
 ### Textures
 
 ConGL sprites can use either self-defined textures (like is shown in this [example](examples/roflcopter.cpp)) or .txr files (check out [textures](textures.md))
