@@ -7,7 +7,7 @@ long_description = (this_directory / "README.md").read_text()
 setup(
     name = 'ConGL',
     packages = ['ConGL'],
-    version = '0.11',
+    version = '0.2',
     license = 'MIT',
     platforms = ['win'],
     description = 'Console Graphics Library',
@@ -16,8 +16,8 @@ setup(
     url = 'https://github.com/bulbaME/ConGL/tree/master/PY_MODULE',
     download_url = '',
     keywords = ['console', 'cmd', 'engine', 'congl', 'terminal'],
-    package_dir = { 'ConGL': 'ConGL'}, 
-	py_modules = ['ConGL/docs'],
+    include_package_data = True,  # 
+    package_dir = { 'ConGL': 'ConGL' }, 
     
     long_description = long_description,
     long_description_content_type = 'text/markdown',
@@ -34,6 +34,3 @@ setup(
         'Programming Language :: Python :: 3.10'
     ]
 )
-
-import os
-os.remove('ConGL.egg-info')
