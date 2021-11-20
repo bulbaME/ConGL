@@ -37,13 +37,12 @@ namespace ConGL::eng2D::txr {
         }
     }
 
-    Texture::Texture(const char* filename) {
-        std::string path = filename;
+    Texture::Texture(std::string path) {
         std::ifstream file;
 
         file.open(path);
         if (!file || file.fail() || !file.is_open()) {
-            std::cout << "Unnable to load " << filename << std::endl;
+            std::cout << "Unnable to load " << path << std::endl;
             Texture();
             return;
         }
