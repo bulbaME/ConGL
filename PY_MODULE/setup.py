@@ -8,12 +8,11 @@ setup(
   author = 'bulba',
   author_email= 'rily.ylir1@gmail.com',
   url = 'https://github.com/bulbaME/ConGL/PY_MODULE', 
-  download_url = '', 
+  download_url = 'https://github.com/bulbaME/ConGL/releases/download/ConGL/ConGL-0.1.tar.gz', 
   keywords = ['console', 'cmd', 'engine', 'congl', 'terminal'], 
   install_requires=[ ],
   classifiers=[
     'Intended Audience :: Developers',
-    'Topic :: Software Development :: Engine',
     'License :: OSI Approved :: MIT License',
     'Programming Language :: Python :: 3',
     'Programming Language :: Python :: 3.6',
