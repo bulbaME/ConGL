@@ -7,7 +7,7 @@ long_description = (this_directory / "README.md").read_text()
 setup(
     name = 'ConGL',
     packages = ['ConGL'],
-    version = '0.1',
+    version = '0.11',
     license = 'MIT',
     platforms = ['win'],
     description = 'Console Graphics Library',
