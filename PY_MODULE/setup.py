@@ -7,7 +7,7 @@ long_description = (this_directory / "README.md").read_text()
 setup(
     name = 'ConGL',
     packages = ['ConGL'],
-    version = '0.2',
+    version = '0.2.2',
     license = 'MIT',
     platforms = ['win'],
     description = 'Console Graphics Library',
@@ -16,7 +16,7 @@ setup(
     url = 'https://github.com/bulbaME/ConGL/tree/master/PY_MODULE',
     download_url = '',
     keywords = ['console', 'cmd', 'engine', 'congl', 'terminal'],
-    include_package_data = True,  # 
+    include_package_data = True, 
     package_dir = { 'ConGL': 'ConGL' }, 
     
     long_description = long_description,
