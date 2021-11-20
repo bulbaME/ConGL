@@ -1,4 +1,4 @@
-from distutils.core import setup, Extension
+from setuptools import setup
 
 from pathlib import Path
 this_directory = Path(__file__).parent
@@ -18,7 +18,7 @@ setup(
     keywords = ['console', 'cmd', 'engine', 'congl', 'terminal'],
     package_dir = { 'ConGL': 'ConGL'}, 
 	py_modules = ['ConGL/docs'],
- 
+    
     long_description = long_description,
     long_description_content_type = 'text/markdown',
     
@@ -34,3 +34,6 @@ setup(
         'Programming Language :: Python :: 3.10'
     ]
 )
+
+import os
+os.remove('ConGL.egg-info')
