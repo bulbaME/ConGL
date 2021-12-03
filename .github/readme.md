@@ -3,13 +3,11 @@
 ### open-source rendering engine for console 🖥
 
 ## Philosophy
-ConGL is created for developers that needed a simple API for rendering in console.
-This library can be used for any purposes (from game engine, to outputing images)
-The main goal of the project was to create a simple API that will keep your code
-clean even in big projects.
+ConGL is created for developers that wanted to create retro-style console apps or games.
+The main goal of the project was to create a simple API that will let you do anything in your console keeping your code clean and beautiful, even in big projects.
 
 As said before, ConGL is very simple to use, so it will be also helpful for begginers
-to create simple projects.
+to create starting interactive projects to gain some experience.
 
 ## Documentation
 
@@ -96,11 +94,11 @@ int main() {
 ```
 
 
-##### If you compile with binary add `#define BIN_LINK` before including congl
+##### If you compile using binary add `#define BIN_LINK` before including congl.h
 
 -----
 
-### ConGL on Python 
+### Python ConGL
 Now you can use ConGL API in python. See [readme](../PY_MODULE/README.md)
 
 ### Textures
