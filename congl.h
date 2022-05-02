@@ -217,6 +217,8 @@ namespace ConGL {
         void* buff_res;
         bool resized = false;
 
+        bool threaded = true;
+
         // time
         int frameTime = 0, avgWait = 0;  // in milliseconds
         std::chrono::system_clock::time_point t1 = std::chrono::system_clock::now(), t2 = std::chrono::system_clock::now();

@@ -18,7 +18,6 @@ WinCon::~WinCon() {
     delete [] frameBuffP;
 }
 
-
 // PUBLIC METHODS
 
 void WinCon::setCurrentHandler(HANDLE handler) {
@@ -78,7 +77,7 @@ void WinCon::flushScreen() {
 }
 
 void WinCon::draw(bool autoClear = true) {
-    if (renderDone) {
+    if (renderDone || !threaded) {
         if (autoSize) resizeScreen();
         if (!resized) {
             renderThreadFunc(autoClear);
@@ -90,7 +89,7 @@ void WinCon::draw(bool autoClear = true) {
         resized = false;
 
         // TODO: try implementing solution without using Sleep 
-        Sleep(1);
+        if (threaded) Sleep(1);
     }
 }
 
@@ -151,7 +150,7 @@ void WinCon::_render(WinCon* t) {
     // only working value is 50 fps, but not actual 50 fps 
 
     if (t->frameTime) {
-        Sleep(t->frameTime / 2);
+        // Sleep(t->frameTime / 2);
         // int waitTime = frameTime - curr_tdiff * 1000;
         // avgWait += waitTime + frameTime / 4;
         // if (avgWait > 0) {
@@ -216,9 +215,9 @@ void WinCon::renderThreadFunc(bool autoClear) {
 
     tempFrameBuff = frameBuff;
 
-    // // launching new thread
+    // launching new thread
     std::thread renderThread(_render, this);
-    renderThread.detach();
+    threaded ? renderThread.detach() : renderThread.join();
 }
 
 }

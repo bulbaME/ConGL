@@ -3,13 +3,20 @@
 ## ::colors
 
 ##### backgorund and foreground colors
-#### ::BG and ::FG
- - **RED**
- - **GREEN**
- - **BLUE**
- - **BLACK**
- - **WHITE**
- - **INTENSE**
+
+ - **FG_RED**
+ - **FG_GREEN**
+ - **FG_BLUE**
+ - **FG_BLACK**
+ - **FG_WHITE**
+ - **FG_INTENSE**
+
+ - **BG_RED**
+ - **BG_GREEN**
+ - **BG_BLUE**
+ - **BG_BLACK**
+ - **BG_WHITE**
+ - **BG_INTENSE**
 
 `wchar_t` **W_FF_BLOCK =  █**
 `wchar_t` **W_HF_BLOCK =  ▒**
